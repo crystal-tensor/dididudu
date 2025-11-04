@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>报告中心</title>
+  <link rel="stylesheet" href="/static/styles.css"/>
+  <style>
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.6);z-index:9999}
+    .modal.show{display:flex}
+    .modal-card{background:#121621;border:1px solid rgba(255,255,255,.1);padding:0;border-radius:12px;width:920px;max-width:96vw;height:80vh;overflow:hidden}
+    .modal-head{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.08)}
+    .frame{width:100%;height:calc(100% - 48px);border:0}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="nav">
+    <div class="h1">报告中心</div>
+    <div>
+      <a href="./index.html">返回</a>
+    </div>
+  </div>
+
+  <!-- 顶部导航下，新增批量操作控件 -->
+  <div class="card" id="reportActions" style="display:flex;align-items:center;gap:12px">
+    <label class="mono"><input type="checkbox" id="toggleAll"> 全选</label>
+    <button class="btn secondary" id="deleteSelectedBtn">删除所选报告</button>
+  </div>
+  <!-- 原有列表容器保持不变 -->
+  <div class="card" id="list"></div>
+
+  <script>
+  const BASE = localStorage.getItem('BACKEND_URL') || 'http://localhost:8000';
+  const apiJson = (path) => fetch(`${BASE}/api${path}`).then(async r=>{ if(!r.ok){ throw new Error(await r.text()||`HTTP ${r.status}`) } return r.json() });
+
+  function openPricing(){ document.getElementById('pricingModal').classList.add('show') }
+  function closePricing(){ document.getElementById('pricingModal').classList.remove('show') }
+
+  let itemsCache = []; let tokenCache = ''; let isMemberCache = false; let showAll = false;
+
+  function revealAll(){
+    showAll = true;
+    render();
+  }
+
+  // 真实删除：单个任务
+  async function deleteOne(jobId){
+    if(!confirm(`确认删除任务 ${jobId}？此操作不可恢复`)) return;
+    try{
+      const r = await fetch(`${BASE}/api/reports/anonymous/${jobId}`, { method: 'DELETE' });
+      if(!r.ok){ throw new Error(await r.text()||`HTTP ${r.status}`) }
+      // 从列表移除并重新渲染
+      itemsCache = itemsCache.filter(j => j.job_id !== jobId);
+      render();
+    }catch(e){
+      alert('删除失败：'+e.message);
+    }
+  }
+
+  // 真实删除：批量任务
+  async function deleteSelected(){
+    const ids = Array.from(document.querySelectorAll('.job-check:checked')).map(i => i.dataset.jobId);
+    if(!ids.length){ alert('请先勾选需要删除的报告'); return }
+    if(!confirm(`确认删除 ${ids.length} 个报告？此操作不可恢复`)) return;
+    try{
+      for(const id of ids){
+        const r = await fetch(`${BASE}/api/reports/anonymous/${id}`, { method: 'DELETE' });
+        if(!r.ok){ throw new Error(await r.text()||`删除 ${id} 失败`) }
+      }
+      itemsCache = itemsCache.filter(j => !ids.includes(j.job_id));
+      render();
+    }catch(e){
+      alert('批量删除失败：'+e.message);
+    }
+  }
+
+  function render(){
+    const box = document.getElementById('list');
+    if(!itemsCache.length){ box.innerHTML = '<p class="mono">暂无报告</p>'; return }
+  
+    box.innerHTML = itemsCache.map(job => {
+      const pages = job.pages.map(p => parseInt(p.replace('page_','').replace('.png',''), 10)).sort((a,b)=>a-b);
+      const shouldShowAll = isMemberCache || showAll;
+      const showPages = shouldShowAll ? pages : pages.slice(0, 2);
+      const imgs = showPages.map(no => {
+        const params = new URLSearchParams();
+        if (tokenCache) params.set('token', tokenCache);
+        if (!isMemberCache && showAll) params.set('preview', '1');
+        const qs = params.toString();
+        const url = `${BASE}/api/reports/anonymous/${job.job_id}/page/${no}${qs ? `?${qs}` : ''}`;
+        return `<div class="col"><img data-src="${url}" style="max-width:100%"/></div>`;
+      }).join('');
+      const tip = shouldShowAll ? '' : '<p class="mono" style="margin-top:8px"><a href="#" onclick="revealAll()">更多页面为付费内容，请在价格页购买会员。</a></p>';
+  
+      return `
+        <div class="card report-card" data-job-id="${job.job_id}">
+          <div class="h2">
+            任务 ${job.job_id}
+            <input type="checkbox" class="job-check" data-job-id="${job.job_id}" style="margin-left:8px">
+            <button class="btn secondary" style="margin-left:8px" onclick="deleteOne('${job.job_id}')">删除</button>
+          </div>
+          <div class="row">${imgs}</div>
+          ${tip}
+        </div>
+      `;
+    }).join('');
+  
+    document.querySelectorAll('img[data-src]').forEach(img=>{ img.src = img.getAttribute('data-src'); });
+  }
+
+  async function load(){
+    tokenCache = localStorage.getItem('TOKEN') || '';
+
+    // 如果已登录，取会员状态（不影响预览开关）
+    if (tokenCache) {
+      try {
+        const me = await apiJson(`/auth/me?token=${encodeURIComponent(tokenCache)}`);
+        isMemberCache = !!me.is_member;
+        localStorage.setItem('IS_MEMBER', isMemberCache ? '1' : '0');
+        localStorage.setItem('USER_ID', me.user_id);
+      } catch(e) {}
+    }
+
+    try{
+      itemsCache = await apiJson(`/reports/list?user_id=anonymous`);
+      render();
+    }catch(e){
+      alert('加载失败：'+e.message+'\n后端地址：'+BASE);
+    }
+  }
+  load();
+  </script>
+</div>
+
+<div class="modal" id="pricingModal">
+  <div class="modal-card">
+    <div class="modal-head">
+      <div class="h2">购买会员/单次报告</div>
+      <button class="btn secondary" onclick="closePricing()">关闭</button>
+    </div>
+    <iframe class="frame" src="/pricing.html"></iframe>
+  </div>
+</div>
+
+<script>
+// 移除底部重复的 deleteOne / deleteSelected 定义，仅保留事件绑定
+document.getElementById('toggleAll')?.addEventListener('change', (e) => {
+  const checked = e.target.checked;
+  document.querySelectorAll('.job-check').forEach(cb => cb.checked = checked);
+});
+document.getElementById('deleteSelectedBtn')?.addEventListener('click', deleteSelected);
+</script>
+</body>
+</html>

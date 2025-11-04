@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>UP主竞争分析 - 登录</title>
+  <link rel="stylesheet" href="/static/styles.css"/>
+  <style>
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.6)}
+    .modal.show{display:flex}
+    .modal-card{background:#121621;border:1px solid rgba(255,255,255,.1);padding:20px;border-radius:12px;width:360px;text-align:center}
+    .modal img{max-width:220px;border-radius:8px;background:#fff;padding:8px}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="nav">
+      <div class="h1">UP主竞争分析</div>
+      <div>
+        <a href="./pricing.html">价格</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="badge">微信扫码登录（占位）</div>
+      <h2 class="h2">注册 / 登录</h2>
+      <p class="mono">点击后弹出二维码，模拟微信扫码并登录。</p>
+      <button class="btn" id="wxLoginBtn">使用微信登录 (占位)</button>
+    </div>
+
+    <div class="card">
+      <div class="badge">输入账号与竞品</div>
+      <div class="row">
+        <div class="col">
+          <div class="label">平台</div>
+          <select id="platform">
+            <option value="bilibili">Bilibili</option>
+            <option value="xhs">小红书</option>
+            <option value="douyin">抖音</option>
+          </select>
+        </div>
+        <div class="col">
+          <div class="label">你的UID（可选）</div>
+          <input class="input" id="uid" placeholder="如：123456" value="520819684">
+        </div>
+      </div>
+
+      <!-- 竞品信息（在立即分析按钮上方） -->
+      <div class="row">
+        <div class="col">
+          <div class="label">竞品UID（1-3个）</div>
+          <!-- 动态列表容器 -->
+          <div id="c_uids_list"></div>
+          <div style="margin-top:8px">
+            <button type="button" class="btn" id="addUidBtn">+</button>
+            <button type="button" class="btn secondary" id="removeUidBtn" style="margin-left:8px">-</button>
+          </div>
+          <!-- 保留原输入为隐藏字段，兼容既有逻辑 -->
+          <input class="input" id="c_uids" placeholder="111,222,333" value="13611123" style="display:none">
+        </div>
+      
+        <div class="col">
+          <div class="label">竞品链接（1-3个）</div>
+          <!-- 动态列表容器 -->
+          <div id="c_links_list"></div>
+          <div style="margin-top:8px">
+            <button type="button" class="btn" id="addLinkBtn">+</button>
+            <button type="button" class="btn secondary" id="removeLinkBtn" style="margin-left:8px">-</button>
+          </div>
+          <!-- 保留原输入为隐藏字段，兼容既有逻辑 -->
+          <input class="input" id="c_links" placeholder="https://... , https://..." value="https://b23.tv/v3re5LD" style="display:none">
+        </div>
+      </div>
+
+      <div style="margin-top:12px">
+        <button class="btn" id="runBtn">立即分析</button>
+        <a class="btn secondary" href="./reports.html" style="margin-left:8px">查看报告</a>
+      </div>
+    </div>
+
+    <div class="footer">© 2025 分析平台 · 微信与支付宝支付即将接入</div>
+  </div>
+
+  <div class="modal" id="qrModal">
+    <div class="modal-card">
+      <div class="h2">微信扫码登录（占位）</div>
+      <p class="mono">请用微信扫码，或点击下方“我已扫码(占位)”模拟回调。</p>
+      <img id="qrImg" alt="qr"/>
+      <div style="margin-top:12px">
+        <button class="btn" id="qrConfirmBtn">我已扫码(占位)</button>
+        <button class="btn secondary" id="qrCloseBtn">关闭</button>
+      </div>
+      <div class="mono" id="qrStatus" style="margin-top:8px;color:#a9c6ff"></div>
+    </div>
+  </div>
+
+<script>
+const BASE = localStorage.getItem('BACKEND_URL') || 'http://localhost:8000';
+const api = (path, opt={}) => fetch(`${BASE}/api${path}`, {headers: {'Content-Type':'application/json'}, ...opt}).then(async r=>{
+  if(!r.ok){ const t = await r.text(); throw new Error(t||`HTTP ${r.status}`) }
+  return r.json();
+});
+
+(async ()=>{ try{ await fetch(`${BASE}/api/health`).then(r=>r.json()); }catch(e){ alert('后端未启动或地址错误：'+BASE) }})();
+
+let pollTimer = null; let currentScene = null;
+const modal = document.getElementById('qrModal');
+const qrImg = document.getElementById('qrImg');
+const qrStatus = document.getElementById('qrStatus');
+
+function openModal(){ modal.classList.add('show') }
+function closeModal(){ modal.classList.remove('show'); if(pollTimer){ clearInterval(pollTimer); pollTimer=null} currentScene=null }
+
+document.getElementById('qrCloseBtn').onclick = closeModal;
+
+document.getElementById('wxLoginBtn').onclick = async () => {
+  try{
+    const {scene, qrcode} = await api('/auth/wechat/qrcode');
+    currentScene = scene; qrImg.src = qrcode; openModal(); qrStatus.textContent = '等待扫码...';
+    // 轮询
+    pollTimer = setInterval(async ()=>{
+      try{
+        const info = await fetch(`${BASE}/api/auth/wechat/poll?scene=${currentScene}`).then(r=>r.json());
+        if(info.status === 'confirmed'){
+          clearInterval(pollTimer); pollTimer=null;
+          localStorage.setItem('TOKEN', info.token);
+          qrStatus.textContent = '登录成功';
+          alert('登录成功: '+info.user_id);
+          closeModal();
+        }else if(info.status === 'expired'){
+          clearInterval(pollTimer); pollTimer=null;
+          qrStatus.textContent = '二维码已过期，请关闭重试';
+        }
+      }catch(e){ /* 忽略暂时错误 */ }
+    }, 1200);
+  }catch(e){
+    alert('获取二维码失败：'+e.message);
+  }
+}
+
+document.getElementById('qrConfirmBtn').onclick = async () => {
+  if(!currentScene) return;
+  try{
+    await fetch(`${BASE}/api/auth/wechat/confirm?scene=${currentScene}`, {method:'POST'});
+  }catch(e){ alert('模拟确认失败：'+e.message) }
+}
+
+document.getElementById('runBtn').onclick = async () => {
+  try{
+    const platform = document.getElementById('platform').value;
+    const uid = document.getElementById('uid').value.trim();
+    const c_uids = document.getElementById('c_uids').value.split(',').map(s=>s.trim()).filter(Boolean);
+    const c_links = document.getElementById('c_links').value.split(',').map(s=>s.trim()).filter(Boolean);
+    const body = {platform, user_uid: uid || null, competitor_uids: c_uids, competitor_links: c_links};
+    const res = await api('/analysis/run', {method:'POST', body: JSON.stringify(body)});
+    alert('任务创建完成: '+res.job_id+'\n前两页可免费查看');
+  }catch(e){
+    alert('创建任务失败：'+e.message);
+  }
+}
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const uidHidden = document.getElementById('c_uids');
+    const linkHidden = document.getElementById('c_links');
+    const uidContainer = document.getElementById('c_uids_list');
+    const linkContainer = document.getElementById('c_links_list');
+    const addUidBtn = document.getElementById('addUidBtn');
+    const removeUidBtn = document.getElementById('removeUidBtn');
+    const addLinkBtn = document.getElementById('addLinkBtn');
+    const removeLinkBtn = document.getElementById('removeLinkBtn');
+    const runBtn = document.getElementById('runBtn');
+
+    function parseCSV(str) {
+      return (str || '').split(',').map(s => s.trim()).filter(Boolean);
+    }
+    function addItem(container, placeholder) {
+      if (container.children.length >= 3) return; // 最多 3 个
+      const row = document.createElement('div');
+      row.className = 'row';
+      const input = document.createElement('input');
+      input.className = 'input';
+      input.placeholder = placeholder;
+      row.appendChild(input);
+      container.appendChild(row);
+    }
+    function removeItem(container) {
+      if (container.children.length > 1) {
+        container.removeChild(container.lastElementChild);
+      }
+    }
+    function renderList(container, values, placeholder) {
+      container.innerHTML = '';
+      (values.length ? values : ['']).forEach(val => {
+        const row = document.createElement('div');
+        row.className = 'row';
+        const input = document.createElement('input');
+        input.className = 'input';
+        input.placeholder = placeholder;
+        input.value = val || '';
+        row.appendChild(input);
+        container.appendChild(row);
+      });
+    }
+    function getValues(container) {
+      return Array.from(container.querySelectorAll('input'))
+        .map(i => i.value.trim())
+        .filter(Boolean);
+    }
+
+    // 初始化：从隐藏字段读取默认值，渲染列表
+    renderList(uidContainer, parseCSV(uidHidden?.value || ''), '如：111111');
+    renderList(linkContainer, parseCSV(linkHidden?.value || ''), 'https://...');
+
+    // 绑定加减按钮
+    addUidBtn.addEventListener('click', () => addItem(uidContainer, '如：111111'));
+    removeUidBtn.addEventListener('click', () => removeItem(uidContainer));
+    addLinkBtn.addEventListener('click', () => addItem(linkContainer, 'https://...'));
+    removeLinkBtn.addEventListener('click', () => removeItem(linkContainer));
+
+    // 在“立即分析”前，把动态值写回隐藏字段，兼容现有逻辑
+    runBtn.addEventListener('click', () => {
+      const uids = getValues(uidContainer).slice(0, 3);   // 安全限制 3 个
+      const links = getValues(linkContainer).slice(0, 3); // 安全限制 3 个
+      uidHidden.value = uids.join(',');
+      linkHidden.value = links.join(',');
+    });
+  });
+</script>
+<!-- 在卡片中添加服务地址输入（建议放在“立即分析”上方） -->
+<div class="row">
+  <div class="col">
+    <div class="label">服务地址（手机可访问）</div>
+    <input class="input" id="baseUrl" placeholder="http://192.168.x.x:8000">
+  </div>
+</div>
+</body>
+</html>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const baseUrlInput = document.getElementById('baseUrl');
+    const qrImg = document.getElementById('qrImg');
+    const qrConfirmBtn = document.getElementById('qrConfirmBtn');
+    const qrStatusEl = document.getElementById('qrStatus');
+
+    function getBaseUrl() {
+      const v = (baseUrlInput?.value || '').trim();
+      return v || window.location.origin;
+    }
+
+    let currentScene = null;
+    let pollTimer = null;
+
+    // 启动扫码流程（你可以在打开“微信扫码登录”弹窗时调用这个函数）
+    function startWechatLogin() {
+      currentScene = `sc_${Date.now()}`;
+      const base = getBaseUrl();
+      const authUrl = `${base}/api/auth/wechat/authorize?scene=${encodeURIComponent(currentScene)}`;
+      // 使用公共 QR 生成服务把链接转为二维码图片（生产可替换为本地生成）
+      const qrApi = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(authUrl)}`;
+      qrImg.src = qrApi;
+      qrStatusEl.textContent = '等待扫码...';
+
+      // 轮询状态
+      if (pollTimer) clearInterval(pollTimer);
+      pollTimer = setInterval(async () => {
+        try {
+          const resp = await fetch(`${base}/api/auth/wechat/poll?scene=${encodeURIComponent(currentScene)}`);
+          const data = await resp.json();
+          if (data.status === 'confirmed') {
+            qrStatusEl.textContent = '已确认登录';
+            clearInterval(pollTimer);
+            // TODO: 触发登录后的下一步，如关闭弹窗、刷新页面、写入登录态等
+          } else if (data.status === 'expired') {
+            qrStatusEl.textContent = '二维码已过期，请重新扫码';
+            clearInterval(pollTimer);
+          } else if (data.status === 'not_found') {
+            qrStatusEl.textContent = '等待授权页初始化...';
+          } else {
+            qrStatusEl.textContent = '等待扫码...';
+          }
+        } catch (e) {
+          qrStatusEl.textContent = '网络异常，稍后重试';
+        }
+      }, 1500);
+    }
+
+    // “我已扫码(占位)”按钮：触发后端确认
+    qrConfirmBtn?.addEventListener('click', async () => {
+      if (!currentScene) return;
+      try {
+        const base = getBaseUrl();
+        await fetch(`${base}/api/auth/wechat/confirm?scene=${encodeURIComponent(currentScene)}`, { method: 'POST' });
+        qrStatusEl.textContent = '已确认登录';
+      } catch (e) {
+        qrStatusEl.textContent = '确认失败，请重试';
+      }
+    });
+
+    // 你现有逻辑中，打开扫码弹窗时调用 startWechatLogin()
+    // 例如：document.getElementById('runBtn').addEventListener('click', startWechatLogin);
+  });
+</script>
+</body>
+</html>

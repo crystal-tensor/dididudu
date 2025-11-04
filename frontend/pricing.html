@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>价格与会员</title>
+  <link rel="stylesheet" href="/static/styles.css"/>
+  <style>
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.6)}
+    .modal.show{display:flex}
+    .modal-card{background:#121621;border:1px solid rgba(255,255,255,.1);padding:16px;border-radius:12px;width:420px;text-align:center}
+    .qr{background:#fff;padding:8px;border-radius:12px}
+    .qr img{max-width:100%;height:auto;display:block}
+    .hint{margin-top:8px;color:#a9c6ff;font-size:12px;word-break:break-all}
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="nav">
+    <div class="h1">价格与会员</div>
+    <div>
+      <a href="./index.html">返回</a>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col"><div class="card"><div class="h2">单次报告</div><p class="mono">¥9.9</p><button class="btn" onclick="openQR('wechat')">微信支付</button> <button class="btn secondary" onclick="openQR('alipay')">支付宝</button></div></div>
+    <div class="col"><div class="card"><div class="h2">按月会员</div><p class="mono">¥19.9/月</p><button class="btn" onclick="openQR('wechat')">微信支付</button> <button class="btn secondary" onclick="openQR('alipay')">支付宝</button></div></div>
+    <div class="col"><div class="card"><div class="h2">按季会员</div><p class="mono">¥29.9/季</p><button class="btn" onclick="openQR('wechat')">微信支付</button> <button class="btn secondary" onclick="openQR('alipay')">支付宝</button></div></div>
+    <div class="col"><div class="card"><div class="h2">按年会员</div><p class="mono">¥39.9/年</p><button class="btn" onclick="openQR('wechat')">微信支付</button> <button class="btn secondary" onclick="openQR('alipay')">支付宝</button></div></div>
+  </div>
+
+  <div class="footer">支付二维码为占位演示，生产需接入微信/支付宝官方SDK</div>
+</div>
+
+<div class="modal" id="qrModal">
+  <div class="modal-card">
+    <div class="h2" id="qrTitle">支付</div>
+    <div class="qr"><img id="qrImg" alt="收款码"/></div>
+    <div class="hint" id="qrHint"></div>
+    <div style="margin-top:10px"><button class="btn" onclick="markPaid()">我已支付(占位)</button> <button class="btn secondary" onclick="closeQR()">关闭</button></div>
+  </div>
+</div>
+
+<script>
+function withBust(url){ const sep = url.includes('?')?'&':'?'; return url+sep+'t='+(Date.now()); }
+function trySources(img, sources){
+  const hint = document.getElementById('qrHint');
+  let i = 0;
+  function loadNext(){
+    if(i >= sources.length){ hint.textContent = '未找到收款码图片，请确认文件路径和文件名。'; return }
+    const src = withBust(sources[i]);
+    img.onerror = ()=>{ i++; loadNext() };
+    img.onload = ()=>{ hint.textContent = '图片路径：'+src };
+    img.src = src;
+  }
+  loadNext();
+}
+function openQR(type){
+  const modal = document.getElementById('qrModal');
+  const img = document.getElementById('qrImg');
+  const title = document.getElementById('qrTitle');
+  const hint = document.getElementById('qrHint');
+  hint.textContent = '';
+  const cand = type==='wechat'
+    ? ['/static/image/pay_wechat.png','/static/pay_wechat.png','/static/wechat.png']
+    : ['/static/image/pay_alipay.png','/static/pay_alipay.png','/static/alipay.png'];
+  title.textContent = type==='wechat' ? '微信支付' : '支付宝支付';
+  trySources(img, cand);
+  modal.classList.add('show');
+}
+function closeQR(){ document.getElementById('qrModal').classList.remove('show') }
+function markPaid(){ localStorage.setItem('IS_MEMBER','1'); alert('已标记为会员(占位)。回到报告页后刷新即可隐藏付费提示。') }
+</script>
+</body>
+</html>
