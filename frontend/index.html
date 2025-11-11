@@ -3,9 +3,33 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>UP主竞争分析 - 登录</title>
+  <title>CreatorInsights - 一站式视频创作者分析平台</title>
   <link rel="stylesheet" href="/static/styles.css"/>
   <style>
+    .hero{padding:54px 0;text-align:left}
+    .hero h1{font-size:44px;line-height:1.2;margin:0}
+    .hero p{color:#a9b3c7;max-width:760px;margin:12px 0 0}
+    .cta{margin-top:20px;display:flex;gap:12px;flex-wrap:wrap}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+    .span-4{grid-column:span 4;min-width:260px}
+    .span-6{grid-column:span 6;min-width:300px}
+    .span-8{grid-column:span 8;min-width:320px}
+    .muted{color:#8993a8}
+    .pill{display:inline-block;padding:4px 10px;border-radius:9999px;background:#142033;border:1px solid rgba(100,150,255,.25);color:#a9c6ff;font-size:12px}
+    .section-title{font-size:24px;font-weight:800;margin:8px 0 0}
+    .icon-bullet{display:flex;gap:10px;align-items:flex-start}
+    .icon{width:22px;height:22px;border-radius:6px;background:#142033;border:1px solid rgba(255,255,255,.08)}
+    .divider{height:1px;background:linear-gradient(90deg,rgba(255,255,255,.06),rgba(255,255,255,.02));margin:18px 0}
+    .pricing{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+    .price-card{grid-column:span 4}
+    .price-tag{font-size:28px;font-weight:800}
+    .small{font-size:12px;color:#94a3c7}
+    .tabs{display:flex;gap:8px;flex-wrap:wrap}
+    .tab{padding:8px 12px;border-radius:10px;background:#0e1220;border:1px solid rgba(255,255,255,.06);cursor:pointer}
+    .tab.active{background:linear-gradient(135deg,#4182ff,#6aa1ff);border:none;color:#fff}
+    .audience-card{margin-top:10px}
+    .footer-links a{color:#cdd6e8;text-decoration:none;margin:0 8px}
+    /* 登录弹窗占位（复用现有结构） */
     .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.6)}
     .modal.show{display:flex}
     .modal-card{background:#121621;border:1px solid rgba(255,255,255,.1);padding:20px;border-radius:12px;width:360px;text-align:center}
@@ -14,22 +38,107 @@
 </head>
 <body>
   <div class="container">
+    <!-- 导航栏 -->
     <div class="nav">
-      <div class="h1">UP主竞争分析</div>
+      <div class="h1">CreatorInsights</div>
       <div>
-        <a href="./pricing.html">价格</a>
+        <a href="#features">功能特性</a>
+        <a href="#solutions" style="margin-left:12px">解决方案</a>
+        <a href="./pricing.html" style="margin-left:12px">定价</a>
+        <a href="#" style="margin-left:12px">博客/资源</a>
+        <a href="#" class="small" id="wxLoginBtn" style="margin-left:16px">登录</a>
+        <a href="#analyze" class="btn" style="margin-left:8px">免费注册</a>
       </div>
     </div>
 
-    <div class="card">
-      <div class="badge">微信扫码登录（占位）</div>
-      <h2 class="h2">注册 / 登录</h2>
-      <p class="mono">点击后弹出二维码，模拟微信扫码并登录。</p>
-      <button class="btn" id="wxLoginBtn">使用微信登录 (占位)</button>
-    </div>
+    <!-- 英雄区域 -->
+    <section class="card hero">
+      <div class="pill">停止猜测。用数据超越竞品。</div>
+      <h1>一站式视频创作者分析平台</h1>
+      <p>我们整合 YouTube、TikTok、B站、小红书 等多平台数据，提供深度竞品对比、爆款内容洞察与商业价值估算，助力您的内容事业实现数据驱动式增长。</p>
+      <div class="cta">
+        <a href="#analyze" class="btn">立即免费开始分析</a>
+        <a href="#demo" class="btn secondary">预约产品演示</a>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <div class="col small">平均报告生成：<b>~30s</b></div>
+        <div class="col small">可用模型：<b>DeepSeek / OpenAI / Gemini</b></div>
+      </div>
+    </section>
 
-    <div class="card">
-      <div class="badge">输入账号与竞品</div>
+    <!-- 痛点区域 -->
+    <section id="pain" class="grid">
+      <div class="card span-6">
+        <div class="section-title">您的增长是否遇到了瓶颈？</div>
+        <ul class="list" style="margin-top:8px">
+          <li class="icon-bullet"><span class="icon"></span><span>多平台管理混乱？无法统一对比？</span></li>
+          <li class="icon-bullet"><span class="icon"></span><span>不知竞品为何火爆？看不清对手策略？</span></li>
+          <li class="icon-bullet"><span class="icon"></span><span>商业变现心里没底？报价难以量化？</span></li>
+          <li class="icon-bullet"><span class="icon"></span><span>汇报效率低？仍在手工截图与 Excel？</span></li>
+        </ul>
+      </div>
+      <div class="card span-6">
+        <div class="section-title">三步，开启您的数据洞察之旅</div>
+        <ol class="list" style="list-style:decimal;padding-left:18px;margin-top:8px">
+          <li>链接账号与竞品：选择平台，输入主账号与竞品。</li>
+          <li>AI 分析：自动抓取清洗，调用大模型生成洞察。</li>
+          <li>获取报告：网页查看摘要，或导出 PDF/PPT。</li>
+        </ol>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 解决方案 / 核心功能 -->
+    <section id="features" class="grid">
+      <div class="card span-6">
+        <div class="badge">跨平台数据整合</div>
+        <div class="h2">一站式数据驾驶舱</div>
+        <p class="muted">在一个界面集中监控多平台的粉丝增长、视频表现与互动数据，支持趋势与分布对比。</p>
+      </div>
+      <div class="card span-6">
+        <div class="badge">深度竞品分析</div>
+        <div class="h2">像素级拆解您的竞品</div>
+        <p class="muted">多维雷达图与趋势对比，清晰看到差距与优势，定位可超越突破口。</p>
+      </div>
+      <div class="card span-4">
+        <div class="badge">商业价值估算</div>
+        <div class="h2">让影响力“价值连城”</div>
+        <p class="muted">基于粉丝质量、互动率与行业基准，给出合作报价建议与变现潜力评估。</p>
+      </div>
+      <div class="card span-4">
+        <div class="badge">AI 洞察与报告</div>
+        <div class="h2">一键生成专业分析报告</div>
+        <p class="muted">结合关键指标与图表摘要，调用大模型生成“人类可读”的优化建议，可导出 PDF/PPT。</p>
+      </div>
+      <div class="card span-4">
+        <div class="badge">自动化与归档</div>
+        <div class="h2">订阅监控与历史版本</div>
+        <p class="muted">设定监控清单与频率，自动生成对比报告并归档，支持指标告警与版本对比。</p>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 解决方案（按角色） -->
+    <section id="solutions" class="card">
+      <div class="section-title">为每一个内容生态角色量身打造</div>
+      <div class="tabs" style="margin-top:8px">
+        <div class="tab active" data-tab="creator">视频创作者</div>
+        <div class="tab" data-tab="mcn">MCN 机构</div>
+        <div class="tab" data-tab="brand">品牌 / 广告主</div>
+      </div>
+      <div class="audience-card" id="audienceContent">
+        <div class="h2">“我需要知道下一个爆款做什么。”</div>
+        <p class="muted">监控竞品动态，分析热门内容标签，优化内容策略，提升粉丝粘性。</p>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 分析表单（包含现有功能与交互） -->
+    <section id="analyze" class="card">
+      <div class="badge">开始你的分析</div>
       <div class="row">
         <div class="col">
           <div class="label">平台</div>
@@ -44,43 +153,114 @@
           <input class="input" id="uid" placeholder="如：123456" value="520819684">
         </div>
       </div>
-
-      <!-- 竞品信息（在立即分析按钮上方） -->
       <div class="row">
         <div class="col">
           <div class="label">竞品UID（1-3个）</div>
-          <!-- 动态列表容器 -->
           <div id="c_uids_list"></div>
           <div style="margin-top:8px">
             <button type="button" class="btn" id="addUidBtn">+</button>
             <button type="button" class="btn secondary" id="removeUidBtn" style="margin-left:8px">-</button>
           </div>
-          <!-- 保留原输入为隐藏字段，兼容既有逻辑 -->
           <input class="input" id="c_uids" placeholder="111,222,333" value="13611123" style="display:none">
         </div>
-      
         <div class="col">
           <div class="label">竞品链接（1-3个）</div>
-          <!-- 动态列表容器 -->
           <div id="c_links_list"></div>
           <div style="margin-top:8px">
             <button type="button" class="btn" id="addLinkBtn">+</button>
             <button type="button" class="btn secondary" id="removeLinkBtn" style="margin-left:8px">-</button>
           </div>
-          <!-- 保留原输入为隐藏字段，兼容既有逻辑 -->
           <input class="input" id="c_links" placeholder="https://... , https://..." value="https://b23.tv/v3re5LD" style="display:none">
         </div>
       </div>
-
+      <div class="row" style="margin-top:8px">
+        <div class="col">
+          <div class="label">选择大模型</div>
+          <select id="llm">
+            <option value="deepseek">DeepSeek</option>
+            <option value="openai">OpenAI</option>
+            <option value="gemini">Gemini</option>
+          </select>
+        </div>
+        <div class="col">
+          <div class="label">服务地址（手机可访问）</div>
+          <input class="input" id="baseUrl" placeholder="http://192.168.x.x:8000">
+        </div>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <div class="col">
+          <div class="label">报告指令（可选）</div>
+          <input class="input" id="prompt" placeholder="请从增长、留存、变现三方面给出优先级建议">
+        </div>
+      </div>
       <div style="margin-top:12px">
         <button class="btn" id="runBtn">立即分析</button>
         <a class="btn secondary" href="./reports.html" style="margin-left:8px">查看报告</a>
       </div>
-    </div>
+      <div class="small" style="margin-top:8px">提示：若后端未实现 llm/prompt 字段将被忽略，不影响任务创建。</div>
+    </section>
 
-    <div class="footer">© 2025 分析平台 · 微信与支付宝支付即将接入</div>
+    <div class="divider"></div>
+
+    <!-- 定价与CTA -->
+    <section id="pricing" class="pricing">
+      <div class="card price-card">
+        <div class="badge">免费版</div>
+        <div class="price-tag">$0</div>
+        <ul class="list">
+          <li>数据摘要、基础图表</li>
+          <li>有限的竞品追踪</li>
+        </ul>
+        <button class="btn">免费注册</button>
+      </div>
+      <div class="card price-card">
+        <div class="badge">专业版</div>
+        <div class="price-tag">按月 / 按次</div>
+        <ul class="list">
+          <li>深度报告与AI文字分析</li>
+          <li>无限竞品对比、PDF/PPT导出</li>
+        </ul>
+        <button class="btn">立即升级</button>
+      </div>
+      <div class="card price-card">
+        <div class="badge">团队 / MCN</div>
+        <div class="price-tag">联系销售</div>
+        <ul class="list">
+          <li>多账号管理、团队协作</li>
+          <li>API 接入、报表历史与权限</li>
+        </ul>
+        <button class="btn">联系我们</button>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 最终行动号召 -->
+    <section id="final-cta" class="card">
+      <div class="section-title">准备好用数据驱动您的创作事业了吗？</div>
+      <div class="row" style="margin-top:8px">
+        <div class="col">
+          <input class="input" id="email" placeholder="输入您的邮箱地址">
+        </div>
+        <div class="col" style="flex:0 0 auto">
+          <button class="btn" id="freeStartBtn">免费开始</button>
+        </div>
+      </div>
+      <div class="small" style="margin-top:8px">提交邮箱即表示同意我们的服务条款与隐私政策。</div>
+    </section>
+
+    <!-- 页脚 -->
+    <div class="footer">
+      <div class="footer-links">
+        <a href="./pricing.html">定价</a>
+        <a href="./reports.html">我的报告</a>
+        <a href="#">帮助中心</a>
+      </div>
+      <div class="small" style="margin-top:6px">© 2025 CreatorInsights · 保留所有权利</div>
+    </div>
   </div>
 
+  <!-- 微信扫码登录（占位，与现有一致风格） -->
   <div class="modal" id="qrModal">
     <div class="modal-card">
       <div class="h2">微信扫码登录（占位）</div>
@@ -94,72 +274,83 @@
     </div>
   </div>
 
-<script>
-const BASE = localStorage.getItem('BACKEND_URL') || 'http://localhost:8000';
-const api = (path, opt={}) => fetch(`${BASE}/api${path}`, {headers: {'Content-Type':'application/json'}, ...opt}).then(async r=>{
-  if(!r.ok){ const t = await r.text(); throw new Error(t||`HTTP ${r.status}`) }
-  return r.json();
-});
+  <script>
+    // 简单 Tab 切换（受众角色）
+    const tabEls = [];
+    document.addEventListener('DOMContentLoaded', ()=>{
+      const tabs = document.querySelectorAll('.tab');
+      const content = document.getElementById('audienceContent');
+      tabs.forEach(t=>{
+        tabEls.push(t);
+        t.addEventListener('click', ()=>{
+          tabEls.forEach(x=>x.classList.remove('active'));
+          t.classList.add('active');
+          const k = t.getAttribute('data-tab');
+          if(k==='creator'){
+            content.innerHTML = '<div class="h2">“我需要知道下一个爆款做什么。”</div><p class="muted">监控竞品动态，分析热门内容标签，优化内容策略，提升粉丝粘性。</p>';
+          }else if(k==='mcn'){
+            content.innerHTML = '<div class="h2">“我需要高效管理矩阵并对标竞品。”</div><p class="muted">批量监测旗下博主数据，对比竞品 MCN 的表现，挖掘高潜力博主，辅助商业决策。</p>';
+          }else{
+            content.innerHTML = '<div class="h2">“我需要找到最匹配的博主并评估 ROI。”</div><p class="muted">筛选目标博主，评估粉丝画像和商业价值，获取第三方数据报告支持投放决策。</p>';
+          }
+        });
+      });
+    });
+  </script>
 
-(async ()=>{ try{ await fetch(`${BASE}/api/health`).then(r=>r.json()); }catch(e){ alert('后端未启动或地址错误：'+BASE) }})();
+  <script>
+  // 与现有后端 API 兼容的工具方法
+  const BASE = localStorage.getItem('BACKEND_URL') || 'http://localhost:8000';
+  const api = (path, opt={}) => fetch(`${BASE}/api${path}`, {headers: {'Content-Type':'application/json'}, ...opt}).then(async r=>{
+    if(!r.ok){ const t = await r.text(); throw new Error(t||`HTTP ${r.status}`) }
+    return r.json();
+  });
+  (async ()=>{ try{ await fetch(`${BASE}/api/health`).then(r=>r.json()); }catch(e){ console.warn('后端未启动或地址错误：'+BASE) }})();
 
-let pollTimer = null; let currentScene = null;
-const modal = document.getElementById('qrModal');
-const qrImg = document.getElementById('qrImg');
-const qrStatus = document.getElementById('qrStatus');
+  // 登录弹窗逻辑（占位，与现有风格一致）
+  let pollTimer = null; let currentScene = null;
+  const modal = document.getElementById('qrModal');
+  const qrImg = document.getElementById('qrImg');
+  const qrStatus = document.getElementById('qrStatus');
+  const qrCloseBtn = document.getElementById('qrCloseBtn');
+  function openModal(){ modal.classList.add('show') }
+  function closeModal(){ modal.classList.remove('show'); if(pollTimer){ clearInterval(pollTimer); pollTimer=null} currentScene=null }
+  qrCloseBtn.onclick = closeModal;
 
-function openModal(){ modal.classList.add('show') }
-function closeModal(){ modal.classList.remove('show'); if(pollTimer){ clearInterval(pollTimer); pollTimer=null} currentScene=null }
+  document.getElementById('wxLoginBtn').onclick = async () => {
+    try{
+      const {scene, qrcode} = await api('/auth/wechat/qrcode');
+      currentScene = scene; qrImg.src = qrcode; openModal(); qrStatus.textContent = '等待扫码...';
+      pollTimer = setInterval(async ()=>{
+        try{
+          const info = await fetch(`${BASE}/api/auth/wechat/poll?scene=${currentScene}`).then(r=>r.json());
+          if(info.status === 'confirmed'){
+            clearInterval(pollTimer); pollTimer=null;
+            localStorage.setItem('TOKEN', info.token);
+            qrStatus.textContent = '登录成功';
+            alert('登录成功: '+info.user_id);
+            closeModal();
+          }else if(info.status === 'expired'){
+            clearInterval(pollTimer); pollTimer=null;
+            qrStatus.textContent = '二维码已过期，请关闭重试';
+          }
+        }catch(e){}
+      }, 1200);
+    }catch(e){
+      alert('获取二维码失败：'+e.message);
+    }
+  };
 
-document.getElementById('qrCloseBtn').onclick = closeModal;
+  document.getElementById('qrConfirmBtn').onclick = async () => {
+    if(!currentScene) return;
+    try{
+      await fetch(`${BASE}/api/auth/wechat/confirm?scene=${currentScene}`, {method:'POST'});
+    }catch(e){ alert('模拟确认失败：'+e.message) }
+  };
+  </script>
 
-document.getElementById('wxLoginBtn').onclick = async () => {
-  try{
-    const {scene, qrcode} = await api('/auth/wechat/qrcode');
-    currentScene = scene; qrImg.src = qrcode; openModal(); qrStatus.textContent = '等待扫码...';
-    // 轮询
-    pollTimer = setInterval(async ()=>{
-      try{
-        const info = await fetch(`${BASE}/api/auth/wechat/poll?scene=${currentScene}`).then(r=>r.json());
-        if(info.status === 'confirmed'){
-          clearInterval(pollTimer); pollTimer=null;
-          localStorage.setItem('TOKEN', info.token);
-          qrStatus.textContent = '登录成功';
-          alert('登录成功: '+info.user_id);
-          closeModal();
-        }else if(info.status === 'expired'){
-          clearInterval(pollTimer); pollTimer=null;
-          qrStatus.textContent = '二维码已过期，请关闭重试';
-        }
-      }catch(e){ /* 忽略暂时错误 */ }
-    }, 1200);
-  }catch(e){
-    alert('获取二维码失败：'+e.message);
-  }
-}
-
-document.getElementById('qrConfirmBtn').onclick = async () => {
-  if(!currentScene) return;
-  try{
-    await fetch(`${BASE}/api/auth/wechat/confirm?scene=${currentScene}`, {method:'POST'});
-  }catch(e){ alert('模拟确认失败：'+e.message) }
-}
-
-document.getElementById('runBtn').onclick = async () => {
-  try{
-    const platform = document.getElementById('platform').value;
-    const uid = document.getElementById('uid').value.trim();
-    const c_uids = document.getElementById('c_uids').value.split(',').map(s=>s.trim()).filter(Boolean);
-    const c_links = document.getElementById('c_links').value.split(',').map(s=>s.trim()).filter(Boolean);
-    const body = {platform, user_uid: uid || null, competitor_uids: c_uids, competitor_links: c_links};
-    const res = await api('/analysis/run', {method:'POST', body: JSON.stringify(body)});
-    alert('任务创建完成: '+res.job_id+'\n前两页可免费查看');
-  }catch(e){
-    alert('创建任务失败：'+e.message);
-  }
-}
-</script>
-<script>
+  <script>
+  // 现有“分析”交互（动态添加/删除、Run 按钮与后端交互）
   document.addEventListener('DOMContentLoaded', () => {
     const uidHidden = document.getElementById('c_uids');
     const linkHidden = document.getElementById('c_links');
@@ -170,12 +361,11 @@ document.getElementById('runBtn').onclick = async () => {
     const addLinkBtn = document.getElementById('addLinkBtn');
     const removeLinkBtn = document.getElementById('removeLinkBtn');
     const runBtn = document.getElementById('runBtn');
+    const baseUrlInput = document.getElementById('baseUrl');
 
-    function parseCSV(str) {
-      return (str || '').split(',').map(s => s.trim()).filter(Boolean);
-    }
+    function parseCSV(str) { return (str || '').split(',').map(s => s.trim()).filter(Boolean); }
     function addItem(container, placeholder) {
-      if (container.children.length >= 3) return; // 最多 3 个
+      if (container.children.length >= 3) return;
       const row = document.createElement('div');
       row.className = 'row';
       const input = document.createElement('input');
@@ -203,104 +393,44 @@ document.getElementById('runBtn').onclick = async () => {
       });
     }
     function getValues(container) {
-      return Array.from(container.querySelectorAll('input'))
-        .map(i => i.value.trim())
-        .filter(Boolean);
+      return Array.from(container.querySelectorAll('input')).map(i => i.value.trim()).filter(Boolean);
     }
-
-    // 初始化：从隐藏字段读取默认值，渲染列表
-    renderList(uidContainer, parseCSV(uidHidden?.value || ''), '如：111111');
-    renderList(linkContainer, parseCSV(linkHidden?.value || ''), 'https://...');
-
-    // 绑定加减按钮
-    addUidBtn.addEventListener('click', () => addItem(uidContainer, '如：111111'));
-    removeUidBtn.addEventListener('click', () => removeItem(uidContainer));
-    addLinkBtn.addEventListener('click', () => addItem(linkContainer, 'https://...'));
-    removeLinkBtn.addEventListener('click', () => removeItem(linkContainer));
-
-    // 在“立即分析”前，把动态值写回隐藏字段，兼容现有逻辑
-    runBtn.addEventListener('click', () => {
-      const uids = getValues(uidContainer).slice(0, 3);   // 安全限制 3 个
-      const links = getValues(linkContainer).slice(0, 3); // 安全限制 3 个
-      uidHidden.value = uids.join(',');
-      linkHidden.value = links.join(',');
-    });
-  });
-</script>
-<!-- 在卡片中添加服务地址输入（建议放在“立即分析”上方） -->
-<div class="row">
-  <div class="col">
-    <div class="label">服务地址（手机可访问）</div>
-    <input class="input" id="baseUrl" placeholder="http://192.168.x.x:8000">
-  </div>
-</div>
-</body>
-</html>
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const baseUrlInput = document.getElementById('baseUrl');
-    const qrImg = document.getElementById('qrImg');
-    const qrConfirmBtn = document.getElementById('qrConfirmBtn');
-    const qrStatusEl = document.getElementById('qrStatus');
-
     function getBaseUrl() {
       const v = (baseUrlInput?.value || '').trim();
       return v || window.location.origin;
     }
 
-    let currentScene = null;
-    let pollTimer = null;
+    renderList(uidContainer, parseCSV(uidHidden?.value || ''), '如：111111');
+    renderList(linkContainer, parseCSV(linkHidden?.value || ''), 'https://...');
 
-    // 启动扫码流程（你可以在打开“微信扫码登录”弹窗时调用这个函数）
-    function startWechatLogin() {
-      currentScene = `sc_${Date.now()}`;
-      const base = getBaseUrl();
-      const authUrl = `${base}/api/auth/wechat/authorize?scene=${encodeURIComponent(currentScene)}`;
-      // 使用公共 QR 生成服务把链接转为二维码图片（生产可替换为本地生成）
-      const qrApi = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(authUrl)}`;
-      qrImg.src = qrApi;
-      qrStatusEl.textContent = '等待扫码...';
+    addUidBtn.addEventListener('click', () => addItem(uidContainer, '如：111111'));
+    removeUidBtn.addEventListener('click', () => removeItem(uidContainer));
+    addLinkBtn.addEventListener('click', () => addItem(linkContainer, 'https://...'));
+    removeLinkBtn.addEventListener('click', () => removeItem(linkContainer));
 
-      // 轮询状态
-      if (pollTimer) clearInterval(pollTimer);
-      pollTimer = setInterval(async () => {
-        try {
-          const resp = await fetch(`${base}/api/auth/wechat/poll?scene=${encodeURIComponent(currentScene)}`);
-          const data = await resp.json();
-          if (data.status === 'confirmed') {
-            qrStatusEl.textContent = '已确认登录';
-            clearInterval(pollTimer);
-            // TODO: 触发登录后的下一步，如关闭弹窗、刷新页面、写入登录态等
-          } else if (data.status === 'expired') {
-            qrStatusEl.textContent = '二维码已过期，请重新扫码';
-            clearInterval(pollTimer);
-          } else if (data.status === 'not_found') {
-            qrStatusEl.textContent = '等待授权页初始化...';
-          } else {
-            qrStatusEl.textContent = '等待扫码...';
-          }
-        } catch (e) {
-          qrStatusEl.textContent = '网络异常，稍后重试';
-        }
-      }, 1500);
-    }
-
-    // “我已扫码(占位)”按钮：触发后端确认
-    qrConfirmBtn?.addEventListener('click', async () => {
-      if (!currentScene) return;
-      try {
+    runBtn.addEventListener('click', async () => {
+      const uids = getValues(uidContainer).slice(0, 3);
+      const links = getValues(linkContainer).slice(0, 3);
+      uidHidden.value = uids.join(',');
+      linkHidden.value = links.join(',');
+      try{
+        const platform = document.getElementById('platform').value;
+        const uid = document.getElementById('uid').value.trim();
+        const c_uids = uidHidden.value.split(',').map(s=>s.trim()).filter(Boolean);
+        const c_links = linkHidden.value.split(',').map(s=>s.trim()).filter(Boolean);
+        const llm = document.getElementById('llm').value;
+        const prompt = document.getElementById('prompt').value.trim();
+        const body = {platform, user_uid: uid || null, competitor_uids: c_uids, competitor_links: c_links, llm, prompt: prompt || null};
         const base = getBaseUrl();
-        await fetch(`${base}/api/auth/wechat/confirm?scene=${encodeURIComponent(currentScene)}`, { method: 'POST' });
-        qrStatusEl.textContent = '已确认登录';
-      } catch (e) {
-        qrStatusEl.textContent = '确认失败，请重试';
+        const res = await fetch(`${base}/api/analysis/run`, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)}).then(r=>r.json());
+        alert('任务创建完成: '+(res.job_id || 'unknown')+'\n前两页可免费查看');
+      }catch(e){
+        alert('创建任务失败：'+(e.message||e));
       }
     });
-
-    // 你现有逻辑中，打开扫码弹窗时调用 startWechatLogin()
-    // 例如：document.getElementById('runBtn').addEventListener('click', startWechatLogin);
   });
-</script>
+  </script>
 </body>
 </html>
+
+

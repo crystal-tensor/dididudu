@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title data-i18n="title">Video Insight Pro - 专业视频数据分析</title>
+  <link rel="stylesheet" href="/static/styles.css"/>
+  <style>
+    .hero{padding:48px 0;text-align:center}
+    .hero h1{font-size:40px;line-height:1.2;margin:0}
+    .hero p{color:#a9b3c7;max-width:760px;margin:12px auto 0}
+    .hero .cta{margin-top:20px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+    .span-4{grid-column:span 4;min-width:260px}
+    .span-6{grid-column:span 6;min-width:300px}
+    .span-8{grid-column:span 8;min-width:320px}
+    .muted{color:#8993a8}
+    .pill{display:inline-block;padding:4px 10px;border-radius:9999px;background:#142033;border:1px solid rgba(100,150,255,.25);color:#a9c6ff;font-size:12px}
+    .section-title{font-size:24px;font-weight:800;margin:8px 0 0}
+    .small{font-size:12px;color:#8091b2}
+    .feature-card .h2{margin:6px 0 8px}
+    .langs{display:flex;align-items:center;gap:8px}
+    .select{padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:#0e1220;color:#e7ecf3}
+    .code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,'Courier New',monospace;background:#0e1220;border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:10px;color:#a9c6ff}
+    .logo-tiny{width:18px;height:18px;vertical-align:-3px;margin-right:6px}
+    .kpi{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+    .kpi div{background:#0e1220;border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:10px 12px}
+    .pricing-col{display:flex;flex-direction:column;gap:10px}
+    .note{font-size:12px;color:#94a3c7}
+    .divider{height:1px;background:linear-gradient(90deg,rgba(255,255,255,.06),rgba(255,255,255,.02));margin:16px 0}
+    .testimonial .h2{margin:6px 0}
+    .card.transparent{background:transparent;border:1px dashed rgba(255,255,255,.1)}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="nav">
+      <div class="h1" data-i18n="brand">Video Insight Pro</div>
+      <div class="langs">
+        <a href="./pricing.html" class="small" data-i18n="nav_pricing">价格</a>
+        <select id="langSelect" class="select" aria-label="language">
+          <option value="zh">中文</option>
+          <option value="en">English</option>
+          <option value="ja">日本語</option>
+        </select>
+      </div>
+    </div>
+
+    <section class="hero card">
+      <div class="pill" data-i18n="hero_pill">你的洞察，被放大</div>
+      <h1 data-i18n="hero_h1">专业视频数据分析，多模型智能报告</h1>
+      <p data-i18n="hero_sub">
+        一键采集并对比多平台视频数据，自动送入 DeepSeek / OpenAI / Gemini 等大模型生成专业解读。结构化图表 + 专家级文本报告，助你做出更聪明的内容与商业决策。
+      </p>
+      <div class="cta">
+        <a href="#analyze" class="btn" data-i18n="cta_start">开始分析</a>
+        <a href="#features" class="btn secondary" data-i18n="cta_learn">了解功能</a>
+      </div>
+      <div class="kpi">
+        <div><span class="small" data-i18n="kpi_projects">累计分析项目</span>：<b>12,438+</b></div>
+        <div><span class="small" data-i18n="kpi_models">可用模型</span>：<b>DeepSeek / OpenAI / Gemini</b></div>
+        <div><span class="small" data-i18n="kpi_latency">平均报告生成</span>：<b>32s</b></div>
+      </div>
+    </section>
+
+    <section id="features" class="grid">
+      <div class="card span-6 feature-card">
+        <div class="badge" data-i18n="f1_badge">采集与对比</div>
+        <div class="h2" data-i18n="f1_title">多平台数据采集与竞品对比</div>
+        <p class="muted" data-i18n="f1_desc">
+          一次输入，多平台抓取 UID / 链接对应的视频表现。自动对齐维度：播放、互动、完播、转化、发布时间、标签与话题等。
+        </p>
+      </div>
+      <div class="card span-6 feature-card">
+        <div class="badge" data-i18n="f2_badge">智能报告</div>
+        <div class="h2" data-i18n="f2_title">大模型解读与可视化联动</div>
+        <p class="muted" data-i18n="f2_desc">
+          将清洗后的关键指标、趋势与异常点送入你选择的大模型，让其生成结论与行动建议；前端同步渲染图表，图文对齐，直击要点。
+        </p>
+      </div>
+      <div class="card span-4 feature-card">
+        <div class="badge" data-i18n="f3_badge">策略建议</div>
+        <div class="h2" data-i18n="f3_title">内容与投放策略生成</div>
+        <p class="muted" data-i18n="f3_desc">
+          基于对比报告自动生成标题/封面/话题建议与发布时间窗口，并给出 A/B 测试方案与预估提升区间。
+        </p>
+      </div>
+      <div class="card span-4 feature-card">
+        <div class="badge" data-i18n="f4_badge">合规与隐私</div>
+        <div class="h2" data-i18n="f4_title">可选离线推理与脱敏上传</div>
+        <p class="muted" data-i18n="f4_desc">
+          支持仅上传聚合后的关键数字，避免原始内容外泄；企业版可对接内网模型或数据代理层。
+        </p>
+      </div>
+      <div class="card span-4 feature-card">
+        <div class="badge" data-i18n="f5_badge">自动化</div>
+        <div class="h2" data-i18n="f5_title">周期任务与历史追踪</div>
+        <p class="muted" data-i18n="f5_desc">
+          设定监控清单与频率，自动生成对比报告并归档；支持指标告警与版本对比。
+        </p>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section id="analyze" class="card">
+      <div class="badge" data-i18n="analyze_badge">开始你的分析</div>
+      <div class="row">
+        <div class="col">
+          <div class="label" data-i18n="label_platform">平台</div>
+          <select id="platform">
+            <option value="bilibili">Bilibili</option>
+            <option value="xhs">小红书</option>
+            <option value="douyin">抖音</option>
+          </select>
+        </div>
+        <div class="col">
+          <div class="label" data-i18n="label_uid">你的UID（可选）</div>
+          <input class="input" id="uid" placeholder="如：123456" value="520819684">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="label" data-i18n="label_comp_uids">竞品UID（1-3个）</div>
+          <div id="c_uids_list"></div>
+          <div style="margin-top:8px">
+            <button type="button" class="btn" id="addUidBtn">+</button>
+            <button type="button" class="btn secondary" id="removeUidBtn" style="margin-left:8px">-</button>
+          </div>
+          <input class="input" id="c_uids" placeholder="111,222,333" value="13611123" style="display:none">
+        </div>
+        <div class="col">
+          <div class="label" data-i18n="label_comp_links">竞品链接（1-3个）</div>
+          <div id="c_links_list"></div>
+          <div style="margin-top:8px">
+            <button type="button" class="btn" id="addLinkBtn">+</button>
+            <button type="button" class="btn secondary" id="removeLinkBtn" style="margin-left:8px">-</button>
+          </div>
+          <input class="input" id="c_links" placeholder="https://... , https://..." value="https://b23.tv/v3re5LD" style="display:none">
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:8px">
+        <div class="col">
+          <div class="label" data-i18n="label_models">选择大模型</div>
+          <select id="llm">
+            <option value="deepseek">DeepSeek</option>
+            <option value="openai">OpenAI</option>
+            <option value="gemini">Gemini</option>
+          </select>
+        </div>
+        <div class="col">
+          <div class="label" data-i18n="label_baseurl">服务地址（手机可访问）</div>
+          <input class="input" id="baseUrl" placeholder="http://192.168.x.x:8000">
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:8px">
+        <div class="col">
+          <div class="label" data-i18n="label_prompt">报告指令（可选）</div>
+          <input class="input" id="prompt" placeholder="请从增长、留存、变现三方面给出优先级建议">
+        </div>
+      </div>
+
+      <div style="margin-top:12px">
+        <button class="btn" id="runBtn" data-i18n="btn_run">立即分析</button>
+        <a class="btn secondary" href="./reports.html" style="margin-left:8px" data-i18n="btn_reports">查看报告</a>
+      </div>
+
+      <div class="card transparent" style="margin-top:12px">
+        <div class="h2" data-i18n="flow_title">报告生成流程</div>
+        <ol class="list" style="list-style:decimal;padding-left:18px">
+          <li data-i18n="flow_1">采集与清洗：获取视频与账号指标，统一时间与维度。</li>
+          <li data-i18n="flow_2">图表分析：生成排名、趋势、留存漏斗、相似度等图表。</li>
+          <li data-i18n="flow_3">大模型解读：将关键指标与图表摘要送入所选模型，生成专家级文字解读与行动清单。</li>
+          <li data-i18n="flow_4">报告合成：将模型文字与图表融合，输出结构化报告。</li>
+        </ol>
+        <div class="note" data-i18n="flow_note">说明：本页不改变你的后端逻辑，只是新增页面组织与多语言展示。</div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section class="grid">
+      <div class="card span-8 testimonial">
+        <div class="badge" data-i18n="testi_badge">行业之声</div>
+        <div class="h2" data-i18n="testi_title">“像有一位 7x24 小时的数据分析师。”</div>
+        <p class="muted" data-i18n="testi_desc">通过自动化对比与大模型解读，内容优化与投放决策更快更稳。</p>
+      </div>
+      <div class="card span-4 pricing-col">
+        <div class="badge" data-i18n="pricing_badge">价格</div>
+        <div class="h2" data-i18n="pricing_title">免费试用 · 专业版可选</div>
+        <div class="note" data-i18n="pricing_note">前两页报告可免费查看，更多功能与加速模型可订阅解锁。</div>
+        <a href="./pricing.html" class="btn" data-i18n="pricing_btn">查看方案</a>
+      </div>
+    </section>
+
+    <div class="footer">
+      <div>
+        <span class="small">© 2025 Video Insight Pro</span>
+        <span class="small" style="margin-left:8px" data-i18n="footer_rights">保留所有权利</span>
+      </div>
+      <div class="small" style="margin-top:6px">
+        参考设计灵感：<a href="http://8.153.83.178:3000/" target="_blank" rel="noopener">MindPulse</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  const i18nDict = {
+    zh: {
+      title: "Video Insight Pro - 专业视频数据分析",
+      brand: "Video Insight Pro",
+      nav_pricing: "价格",
+      hero_pill: "你的洞察，被放大",
+      hero_h1: "专业视频数据分析，多模型智能报告",
+      hero_sub: "一键采集并对比多平台视频数据，自动送入 DeepSeek / OpenAI / Gemini 等大模型生成专业解读。结构化图表 + 专家级文本报告，助你做出更聪明的内容与商业决策。",
+      cta_start: "开始分析",
+      cta_learn: "了解功能",
+      kpi_projects: "累计分析项目",
+      kpi_models: "可用模型",
+      kpi_latency: "平均报告生成",
+      f1_badge: "采集与对比",
+      f1_title: "多平台数据采集与竞品对比",
+      f1_desc: "一次输入，多平台抓取 UID / 链接对应的视频表现。自动对齐维度：播放、互动、完播、转化、发布时间、标签与话题等。",
+      f2_badge: "智能报告",
+      f2_title: "大模型解读与可视化联动",
+      f2_desc: "将清洗后的关键指标、趋势与异常点送入你选择的大模型，让其生成结论与行动建议；前端同步渲染图表，图文对齐，直击要点。",
+      f3_badge: "策略建议",
+      f3_title: "内容与投放策略生成",
+      f3_desc: "基于对比报告自动生成标题/封面/话题建议与发布时间窗口，并给出 A/B 测试方案与预估提升区间。",
+      f4_badge: "合规与隐私",
+      f4_title: "可选离线推理与脱敏上传",
+      f4_desc: "支持仅上传聚合后的关键数字，避免原始内容外泄；企业版可对接内网模型或数据代理层。",
+      f5_badge: "自动化",
+      f5_title: "周期任务与历史追踪",
+      f5_desc: "设定监控清单与频率，自动生成对比报告并归档；支持指标告警与版本对比。",
+      analyze_badge: "开始你的分析",
+      label_platform: "平台",
+      label_uid: "你的UID（可选）",
+      label_comp_uids: "竞品UID（1-3个）",
+      label_comp_links: "竞品链接（1-3个）",
+      label_models: "选择大模型",
+      label_baseurl: "服务地址（手机可访问）",
+      label_prompt: "报告指令（可选）",
+      btn_run: "立即分析",
+      btn_reports: "查看报告",
+      flow_title: "报告生成流程",
+      flow_1: "采集与清洗：获取视频与账号指标，统一时间与维度。",
+      flow_2: "图表分析：生成排名、趋势、留存漏斗、相似度等图表。",
+      flow_3: "大模型解读：将关键指标与图表摘要送入所选模型，生成专家级文字解读与行动清单。",
+      flow_4: "报告合成：将模型文字与图表融合，输出结构化报告。",
+      flow_note: "说明：本页不改变你的后端逻辑，只是新增页面组织与多语言展示。",
+      testi_badge: "行业之声",
+      testi_title: "“像有一位 7x24 小时的数据分析师。”",
+      testi_desc: "通过自动化对比与大模型解读，内容优化与投放决策更快更稳。",
+      pricing_badge: "价格",
+      pricing_title: "免费试用 · 专业版可选",
+      pricing_note: "前两页报告可免费查看，更多功能与加速模型可订阅解锁。",
+      pricing_btn: "查看方案",
+      footer_rights: "保留所有权利"
+    },
+    en: {
+      title: "Video Insight Pro - Video Intelligence & LLM Reports",
+      brand: "Video Insight Pro",
+      nav_pricing: "Pricing",
+      hero_pill: "Amplify Your Insight",
+      hero_h1: "Pro Video Analytics with LLM-Generated Reports",
+      hero_sub: "Collect and compare multi-platform video data, then send key metrics to DeepSeek / OpenAI / Gemini for expert narratives. Charts and text aligned for actionable decisions.",
+      cta_start: "Get Started",
+      cta_learn: "Learn More",
+      kpi_projects: "Projects analyzed",
+      kpi_models: "Available models",
+      kpi_latency: "Avg. report time",
+      f1_badge: "Acquisition & Compare",
+      f1_title: "Multi-platform Data Collection & Benchmarking",
+      f1_desc: "Fetch performance by UID/links across platforms. Align dimensions: views, engagement, retention, conversion, post time, tags, topics.",
+      f2_badge: "Intelligent Reports",
+      f2_title: "LLM Reasoning with Chart Sync",
+      f2_desc: "Send cleaned metrics, trends and anomalies to your chosen model to produce conclusions and action plans; charts render alongside insights.",
+      f3_badge: "Strategy",
+      f3_title: "Content & Ads Strategy Suggestions",
+      f3_desc: "Generate title/cover/topic ideas, posting windows and A/B test plans with expected uplift ranges.",
+      f4_badge: "Compliance & Privacy",
+      f4_title: "Offline/Private Inference Options",
+      f4_desc: "Upload only aggregated numbers; enterprise edition supports private models or data proxy layers.",
+      f5_badge: "Automation",
+      f5_title: "Schedules & History Tracking",
+      f5_desc: "Monitor lists on cadence, auto-generate reports with archives, alerts and version diff.",
+      analyze_badge: "Start Analysis",
+      label_platform: "Platform",
+      label_uid: "Your UID (optional)",
+      label_comp_uids: "Competitor UIDs (1-3)",
+      label_comp_links: "Competitor Links (1-3)",
+      label_models: "Choose Model",
+      label_baseurl: "Service URL (LAN reachable)",
+      label_prompt: "Prompt (optional)",
+      btn_run: "Analyze Now",
+      btn_reports: "View Reports",
+      flow_title: "How Reports Are Generated",
+      flow_1: "Ingest & Clean: unify time and dimensions for videos/accounts.",
+      flow_2: "Visualize: rankings, trends, retention funnels, similarity.",
+      flow_3: "LLM Reasoning: send key metrics and chart summaries; get expert narrative and action items.",
+      flow_4: "Synthesis: merge narrative and charts into a structured report.",
+      flow_note: "Note: This page adds layout and i18n only; backend logic unchanged.",
+      testi_badge: "Voices",
+      testi_title: "\"Feels like a 24/7 data analyst on your team.\"",
+      testi_desc: "Automated benchmarking plus LLM reasoning speeds confident decisions.",
+      pricing_badge: "Pricing",
+      pricing_title: "Free Trial · Pro Available",
+      pricing_note: "First two pages free; more features and faster models via subscription.",
+      pricing_btn: "See Plans",
+      footer_rights: "All rights reserved"
+    },
+    ja: {
+      title: "Video Insight Pro - 動画分析とLLMレポート",
+      brand: "Video Insight Pro",
+      nav_pricing: "料金",
+      hero_pill: "洞察をブースト",
+      hero_h1: "プロ向け動画分析とマルチLLMレポート",
+      hero_sub: "複数プラットフォームの指標を収集・比較し、DeepSeek / OpenAI / Gemini に投入して専門的な解釈を生成。可視化とテキストを整合し、実行可能な判断へ。",
+      cta_start: "今すぐ開始",
+      cta_learn: "詳細を見る",
+      kpi_projects: "分析プロジェクト数",
+      kpi_models: "利用可能モデル",
+      kpi_latency: "平均レポート時間",
+      f1_badge: "収集と比較",
+      f1_title: "マルチプラットフォーム収集とベンチマーク",
+      f1_desc: "UID/リンクからパフォーマンスを取得。再生/エンゲージ/完走率/転換/投稿時間/タグ等を整合。",
+      f2_badge: "インテリジェントレポート",
+      f2_title: "LLMと可視化の連携",
+      f2_desc: "クリーニングされた指標や傾向、異常を選択モデルへ渡し、結論とアクションを生成。グラフと同期表示。",
+      f3_badge: "戦略提案",
+      f3_title: "コンテンツと配信戦略",
+      f3_desc: "タイトル/カバー/トピックの提案、投稿ウィンドウ、A/B テスト案と期待効果。",
+      f4_badge: "コンプライアンスとプライバシー",
+      f4_title: "オフライン/プライベート推論",
+      f4_desc: "集計値のみアップロード可能。エンタープライズ版は内製モデルやプロキシに対応。",
+      f5_badge: "自動化",
+      f5_title: "スケジュールと履歴追跡",
+      f5_desc: "監視対象を定期実行し、自動で比較レポートを生成・保存、アラートと差分比較に対応。",
+      analyze_badge: "分析を開始",
+      label_platform: "プラットフォーム",
+      label_uid: "あなたのUID（任意）",
+      label_comp_uids: "競合UID（1-3）",
+      label_comp_links: "競合リンク（1-3）",
+      label_models: "モデル選択",
+      label_baseurl: "サービスURL（LAN到達）",
+      label_prompt: "プロンプト（任意）",
+      btn_run: "今すぐ分析",
+      btn_reports: "レポートを見る",
+      flow_title: "レポート生成フロー",
+      flow_1: "取得・整形：動画/アカウント指標を統一。",
+      flow_2: "可視化：ランキング、傾向、ファネル、類似度。",
+      flow_3: "LLM解釈：主要指標と要約を渡し、専門的テキストとアクション項目を作成。",
+      flow_4: "統合：テキストとグラフを構造化レポートに統合。",
+      flow_note: "注意：本ページはUIと言語対応の追加で、バックエンドは変更しません。",
+      testi_badge: "声",
+      testi_title: "「24時間のデータアナリストがいるみたい。」",
+      testi_desc: "自動比較とLLM解釈で意思決定が迅速に。",
+      pricing_badge: "料金",
+      pricing_title: "無料トライアル・Proあり",
+      pricing_note: "最初の2ページは無料。高度機能と高速モデルはサブスクで解放。",
+      pricing_btn: "プランを見る",
+      footer_rights: "無断複製を禁ず"
+    }
+  };
+
+  const textNodes = document.querySelectorAll("[data-i18n]");
+  const selectEl = document.getElementById("langSelect");
+  function applyLang(lc){
+    const dict = i18nDict[lc] || i18nDict.zh;
+    textNodes.forEach(node=>{
+      const k = node.getAttribute("data-i18n");
+      if(k && dict[k] != null){ node.textContent = dict[k]; }
+    });
+    document.title = dict.title;
+  }
+  selectEl.addEventListener("change", e=>{
+    localStorage.setItem("VI_LANG", e.target.value);
+    applyLang(e.target.value);
+  });
+  applyLang(localStorage.getItem("VI_LANG") || "zh");
+  </script>
+
+  <script>
+  const BASE = localStorage.getItem('BACKEND_URL') || 'http://localhost:8000';
+  const api = (path, opt={}) => fetch(`${BASE}/api${path}`, {headers: {'Content-Type':'application/json'}, ...opt}).then(async r=>{
+    if(!r.ok){ const t = await r.text(); throw new Error(t||`HTTP ${r.status}`) }
+    return r.json();
+  });
+  (async ()=>{ try{ await fetch(`${BASE}/api/health`).then(r=>r.json()); }catch(e){ /* 不打扰用户，仅警示 */ console.warn('后端未启动或地址错误：'+BASE) }})();
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const uidHidden = document.getElementById('c_uids');
+    const linkHidden = document.getElementById('c_links');
+    const uidContainer = document.getElementById('c_uids_list');
+    const linkContainer = document.getElementById('c_links_list');
+    const addUidBtn = document.getElementById('addUidBtn');
+    const removeUidBtn = document.getElementById('removeUidBtn');
+    const addLinkBtn = document.getElementById('addLinkBtn');
+    const removeLinkBtn = document.getElementById('removeLinkBtn');
+    const runBtn = document.getElementById('runBtn');
+    const baseUrlInput = document.getElementById('baseUrl');
+
+    function parseCSV(str){ return (str || '').split(',').map(s=>s.trim()).filter(Boolean); }
+    function addItem(container, placeholder){
+      if(container.children.length >= 3) return;
+      const row = document.createElement('div');
+      row.className = 'row';
+      const input = document.createElement('input');
+      input.className = 'input';
+      input.placeholder = placeholder;
+      row.appendChild(input);
+      container.appendChild(row);
+    }
+    function removeItem(container){
+      if(container.children.length > 1){
+        container.removeChild(container.lastElementChild);
+      }
+    }
+    function renderList(container, values, placeholder){
+      container.innerHTML = '';
+      (values.length ? values : ['']).forEach(val=>{
+        const row = document.createElement('div');
+        row.className = 'row';
+        const input = document.createElement('input');
+        input.className = 'input';
+        input.placeholder = placeholder;
+        input.value = val || '';
+        row.appendChild(input);
+        container.appendChild(row);
+      });
+    }
+    function getValues(container){
+      return Array.from(container.querySelectorAll('input')).map(i=>i.value.trim()).filter(Boolean);
+    }
+
+    renderList(uidContainer, parseCSV(uidHidden?.value || ''), '如：111111');
+    renderList(linkContainer, parseCSV(linkHidden?.value || ''), 'https://...');
+
+    addUidBtn.addEventListener('click', ()=>addItem(uidContainer, '如：111111'));
+    removeUidBtn.addEventListener('click', ()=>removeItem(uidContainer));
+    addLinkBtn.addEventListener('click', ()=>addItem(linkContainer, 'https://...'));
+    removeLinkBtn.addEventListener('click', ()=>removeItem(linkContainer));
+
+    function getBaseUrl(){
+      const v = (baseUrlInput?.value || '').trim();
+      return v || window.location.origin;
+    }
+
+    runBtn.addEventListener('click', async ()=>{
+      const uids = getValues(uidContainer).slice(0,3);
+      const links = getValues(linkContainer).slice(0,3);
+      uidHidden.value = uids.join(',');
+      linkHidden.value = links.join(',');
+      try{
+        const platform = document.getElementById('platform').value;
+        const uid = document.getElementById('uid').value.trim();
+        const c_uids = uidHidden.value.split(',').map(s=>s.trim()).filter(Boolean);
+        const c_links = linkHidden.value.split(',').map(s=>s.trim()).filter(Boolean);
+        const llm = document.getElementById('llm').value;
+        const prompt = document.getElementById('prompt').value.trim();
+        const body = { platform, user_uid: uid || null, competitor_uids: c_uids, competitor_links: c_links, llm, prompt: prompt || null };
+        const base = getBaseUrl();
+        // 与现有后端兼容：把扩展字段带上，后端忽略也不影响。若后端已支持则可利用。
+        const res = await fetch(`${base}/api/analysis/run`, {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify(body)
+        }).then(r=>r.json());
+        alert('任务创建完成: '+(res.job_id || 'unknown')+'\n前两页可免费查看');
+      }catch(e){
+        alert('创建任务失败：'+(e.message||e));
+      }
+    });
+  });
+  </script>
+</body>
+</html>
+
+
