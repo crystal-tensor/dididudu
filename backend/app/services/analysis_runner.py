@@ -4,6 +4,7 @@ from pathlib import Path
 from datetime import datetime
 import threading
 import os
+from typing import Dict, List, Optional
 
 REPORT_ROOT = Path("/Users/danielcrystal/work/dididudu/reports")
 REPORT_ROOT.mkdir(parents=True, exist_ok=True)
@@ -12,13 +13,13 @@ PYTHON = sys.executable
 WORKDIR = Path("/Users/danielcrystal/work/dididudu")
 
 # 简易内存任务表
-JOBS: dict[str, dict] = {}
+JOBS: Dict[str, dict] = {}
 
 
-def _run_pipeline(job_id: str, export_dir: Path, platform: str, user_uid: str | None, competitor_uids: list[str], competitor_links: list[str]):
+def _run_pipeline(job_id: str, export_dir: Path, platform: str, user_uid: Optional[str], competitor_uids: List[str], competitor_links: List[str]):
     try:
         # 1) 运行 example.py（此处未参数化，后续可改造成接收platform/uid/links）
-        proc1 = subprocess.run([PYTHON, "example.py"], cwd=str(WORKDIR), capture_output=True, text=True)
+        proc1 = subprocess.run([PYTHON, "example.py"], cwd=str(WORKDIR), capture_output=True, universal_newlines=True)
         JOBS[job_id]["log_example"] = proc1.stdout + "\n" + proc1.stderr
         if proc1.returncode != 0:
             JOBS[job_id]["status"] = "failed"
@@ -26,8 +27,9 @@ def _run_pipeline(job_id: str, export_dir: Path, platform: str, user_uid: str | 
             return
         
         # 2) 运行 report3.py，导出前若干页图片
-        env = {**dict(**os.environ), **{"EXPORT_DIR": str(export_dir)}}
-        proc2 = subprocess.run([PYTHON, "report3.py"], cwd=str(WORKDIR), env=env, capture_output=True, text=True)
+        env = dict(os.environ)
+        env["EXPORT_DIR"] = str(export_dir)
+        proc2 = subprocess.run([PYTHON, "report3.py"], cwd=str(WORKDIR), env=env, capture_output=True, universal_newlines=True)
         JOBS[job_id]["log_report"] = proc2.stdout + "\n" + proc2.stderr
         if proc2.returncode != 0:
             JOBS[job_id]["status"] = "failed"
@@ -40,7 +42,7 @@ def _run_pipeline(job_id: str, export_dir: Path, platform: str, user_uid: str | 
         JOBS[job_id]["error"] = str(e)
 
 
-def run_analysis_task(platform: str, user_uid: str | None, competitor_uids: list[str], competitor_links: list[str]):
+def run_analysis_task(platform: str, user_uid: Optional[str], competitor_uids: List[str], competitor_links: List[str]):
     from datetime import datetime
     job_id = datetime.now().strftime("%Y%m%d_%H%M%S")
     user_id = "anonymous"

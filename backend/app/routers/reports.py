@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
 router = APIRouter()
 
@@ -24,7 +24,7 @@ def list_reports(user_id: str):
     return items
 
 @router.get("/{user_id}/{job_id}/page/{page_no}")
-def get_page(user_id: str, job_id: str, page_no: int, token: str | None = None, preview: bool = False):
+def get_page(user_id: str, job_id: str, page_no: int, token: Optional[str] = None, preview: bool = False):
     # 会员判断：如果提供 token 且对应用户是会员，则不限制页数
     from ..state import SESSIONS, PAID_USERS
     is_member = False

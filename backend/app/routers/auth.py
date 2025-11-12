@@ -1,7 +1,8 @@
 from fastapi import APIRouter, HTTPException, Depends, Query
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
-from typing import Optional
+# from typing import Optional
+from typing import Optional, List
 import time
 import base64
 from io import BytesIO
@@ -23,7 +24,7 @@ class TokenResponse(BaseModel):
 class BindAccountRequest(BaseModel):
     platform: str  # bilibili/xhs/douyin
     uid: Optional[str] = None
-    links: Optional[list[str]] = None
+    links: Optional[List[str]] = None
 
 
 def get_user_id(token: str) -> str:

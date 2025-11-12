@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, validator
 from typing import List, Optional
 from ..services.analysis_runner import run_analysis_task
 
@@ -11,12 +11,11 @@ class AnalysisRequest(BaseModel):
     competitor_uids: Optional[List[str]] = None
     competitor_links: Optional[List[str]] = None
 
-    @field_validator('platform')
-    @classmethod
-    def validate_platform(cls, v: str) -> str:
+    @validator('platform')
+    def validate_platform(cls, v):
         allowed = {"bilibili", "xhs", "douyin"}
         if v not in allowed:
-            raise ValueError(f"platform必须为 {allowed}")
+            raise ValueError("platform必须为 {}".format(allowed))
         return v
 
 @router.post("/run")
