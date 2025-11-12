@@ -1,436 +1,815 @@
-<!doctype html>
-<html lang="zh">
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>CreatorInsights - 一站式视频创作者分析平台</title>
-  <link rel="stylesheet" href="/static/styles.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CreatorInsights - 专业视频数据分析平台</title>
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  
   <style>
-    .hero{padding:54px 0;text-align:left}
-    .hero h1{font-size:44px;line-height:1.2;margin:0}
-    .hero p{color:#a9b3c7;max-width:760px;margin:12px 0 0}
-    .cta{margin-top:20px;display:flex;gap:12px;flex-wrap:wrap}
-    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
-    .span-4{grid-column:span 4;min-width:260px}
-    .span-6{grid-column:span 6;min-width:300px}
-    .span-8{grid-column:span 8;min-width:320px}
-    .muted{color:#8993a8}
-    .pill{display:inline-block;padding:4px 10px;border-radius:9999px;background:#142033;border:1px solid rgba(100,150,255,.25);color:#a9c6ff;font-size:12px}
-    .section-title{font-size:24px;font-weight:800;margin:8px 0 0}
-    .icon-bullet{display:flex;gap:10px;align-items:flex-start}
-    .icon{width:22px;height:22px;border-radius:6px;background:#142033;border:1px solid rgba(255,255,255,.08)}
-    .divider{height:1px;background:linear-gradient(90deg,rgba(255,255,255,.06),rgba(255,255,255,.02));margin:18px 0}
-    .pricing{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
-    .price-card{grid-column:span 4}
-    .price-tag{font-size:28px;font-weight:800}
-    .small{font-size:12px;color:#94a3c7}
-    .tabs{display:flex;gap:8px;flex-wrap:wrap}
-    .tab{padding:8px 12px;border-radius:10px;background:#0e1220;border:1px solid rgba(255,255,255,.06);cursor:pointer}
-    .tab.active{background:linear-gradient(135deg,#4182ff,#6aa1ff);border:none;color:#fff}
-    .audience-card{margin-top:10px}
-    .footer-links a{color:#cdd6e8;text-decoration:none;margin:0 8px}
-    /* 登录弹窗占位（复用现有结构） */
-    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.6)}
-    .modal.show{display:flex}
-    .modal-card{background:#121621;border:1px solid rgba(255,255,255,.1);padding:20px;border-radius:12px;width:360px;text-align:center}
-    .modal img{max-width:220px;border-radius:8px;background:#fff;padding:8px}
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --secondary: #8b5cf6;
+      --success: #10b981;
+      --info: #06b6d4;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --dark: #1e293b;
+      --light: #f8fafc;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+
+    .navbar {
+      background: rgba(255, 255, 255, 0.95) !important;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-brand {
+      font-weight: 800;
+      font-size: 1.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-section {
+      padding: 80px 0;
+      color: white;
+      text-align: center;
+    }
+
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
+      opacity: 0.95;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .feature-card {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      height: 100%;
+      transition: transform 0.3s, box-shadow 0.3s;
+      border: none;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .feature-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .icon-primary { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
+    .icon-success { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+    .icon-info { background: linear-gradient(135deg, #06b6d4, #0891b2); color: white; }
+    .icon-warning { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; }
+    .icon-danger { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; }
+    .icon-secondary { background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: white; }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 3rem;
+      text-align: center;
+      color: white;
+    }
+
+    .analysis-form {
+      background: white;
+      border-radius: 20px;
+      padding: 2.5rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      margin: 3rem 0;
+    }
+
+    .form-label {
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .form-control, .form-select {
+      border-radius: 10px;
+      border: 2px solid #e2e8f0;
+      padding: 0.75rem 1rem;
+      transition: all 0.3s;
+    }
+
+    .form-control:focus, .form-select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border: none;
+      border-radius: 10px;
+      padding: 0.75rem 2rem;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-outline-primary {
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      border-radius: 10px;
+      padding: 0.75rem 2rem;
+      font-weight: 600;
+    }
+
+    .pricing-card {
+      background: white;
+      border-radius: 20px;
+      padding: 2.5rem;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+      border: 2px solid transparent;
+      height: 100%;
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      border-color: var(--primary);
+    }
+
+    .pricing-card.featured {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .pricing-card.featured .text-muted {
+      color: rgba(255, 255, 255, 0.8) !important;
+    }
+
+    .price {
+      font-size: 3rem;
+      font-weight: 800;
+      margin: 1rem 0;
+    }
+
+    .step-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: center;
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .step-number {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: white;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin: 0 auto 1rem;
+    }
+
+    .badge-custom {
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+
+    .footer {
+      background: rgba(30, 41, 59, 0.95);
+      color: white;
+      padding: 3rem 0 1.5rem;
+      margin-top: 5rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2rem;
+      }
+      .hero-subtitle {
+        font-size: 1rem;
+      }
+      .section-title {
+        font-size: 1.75rem;
+      }
+      .analysis-form {
+        padding: 1.5rem;
+      }
+    }
+
+    .input-group-custom {
+      margin-bottom: 1rem;
+    }
+
+    .btn-add-remove {
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      margin-right: 0.5rem;
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <!-- 导航栏 -->
-    <div class="nav">
-      <div class="h1">CreatorInsights</div>
-      <div>
-        <a href="#features">功能特性</a>
-        <a href="#solutions" style="margin-left:12px">解决方案</a>
-        <a href="./pricing.html" style="margin-left:12px">定价</a>
-        <a href="#" style="margin-left:12px">博客/资源</a>
-        <a href="#" class="small" id="wxLoginBtn" style="margin-left:16px">登录</a>
-        <a href="#analyze" class="btn" style="margin-left:8px">免费注册</a>
+  <!-- 导航栏 -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <i class="bi bi-graph-up-arrow"></i> CreatorInsights
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#features">功能特性</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#how-it-works">使用流程</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#pricing">定价</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./pricing.html">价格详情</a>
+          </li>
+          <li class="nav-item">
+            <button class="btn btn-outline-primary ms-2" id="wxLoginBtn">登录</button>
+          </li>
+        </ul>
       </div>
     </div>
+  </nav>
 
-    <!-- 英雄区域 -->
-    <section class="card hero">
-      <div class="pill">停止猜测。用数据超越竞品。</div>
-      <h1>一站式视频创作者分析平台</h1>
-      <p>我们整合 YouTube、TikTok、B站、小红书 等多平台数据，提供深度竞品对比、爆款内容洞察与商业价值估算，助力您的内容事业实现数据驱动式增长。</p>
-      <div class="cta">
-        <a href="#analyze" class="btn">立即免费开始分析</a>
-        <a href="#demo" class="btn secondary">预约产品演示</a>
-      </div>
-      <div class="row" style="margin-top:12px">
-        <div class="col small">平均报告生成：<b>~30s</b></div>
-        <div class="col small">可用模型：<b>DeepSeek / OpenAI / Gemini</b></div>
-      </div>
-    </section>
-
-    <!-- 痛点区域 -->
-    <section id="pain" class="grid">
-      <div class="card span-6">
-        <div class="section-title">您的增长是否遇到了瓶颈？</div>
-        <ul class="list" style="margin-top:8px">
-          <li class="icon-bullet"><span class="icon"></span><span>多平台管理混乱？无法统一对比？</span></li>
-          <li class="icon-bullet"><span class="icon"></span><span>不知竞品为何火爆？看不清对手策略？</span></li>
-          <li class="icon-bullet"><span class="icon"></span><span>商业变现心里没底？报价难以量化？</span></li>
-          <li class="icon-bullet"><span class="icon"></span><span>汇报效率低？仍在手工截图与 Excel？</span></li>
-        </ul>
-      </div>
-      <div class="card span-6">
-        <div class="section-title">三步，开启您的数据洞察之旅</div>
-        <ol class="list" style="list-style:decimal;padding-left:18px;margin-top:8px">
-          <li>链接账号与竞品：选择平台，输入主账号与竞品。</li>
-          <li>AI 分析：自动抓取清洗，调用大模型生成洞察。</li>
-          <li>获取报告：网页查看摘要，或导出 PDF/PPT。</li>
-        </ol>
-      </div>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- 解决方案 / 核心功能 -->
-    <section id="features" class="grid">
-      <div class="card span-6">
-        <div class="badge">跨平台数据整合</div>
-        <div class="h2">一站式数据驾驶舱</div>
-        <p class="muted">在一个界面集中监控多平台的粉丝增长、视频表现与互动数据，支持趋势与分布对比。</p>
-      </div>
-      <div class="card span-6">
-        <div class="badge">深度竞品分析</div>
-        <div class="h2">像素级拆解您的竞品</div>
-        <p class="muted">多维雷达图与趋势对比，清晰看到差距与优势，定位可超越突破口。</p>
-      </div>
-      <div class="card span-4">
-        <div class="badge">商业价值估算</div>
-        <div class="h2">让影响力“价值连城”</div>
-        <p class="muted">基于粉丝质量、互动率与行业基准，给出合作报价建议与变现潜力评估。</p>
-      </div>
-      <div class="card span-4">
-        <div class="badge">AI 洞察与报告</div>
-        <div class="h2">一键生成专业分析报告</div>
-        <p class="muted">结合关键指标与图表摘要，调用大模型生成“人类可读”的优化建议，可导出 PDF/PPT。</p>
-      </div>
-      <div class="card span-4">
-        <div class="badge">自动化与归档</div>
-        <div class="h2">订阅监控与历史版本</div>
-        <p class="muted">设定监控清单与频率，自动生成对比报告并归档，支持指标告警与版本对比。</p>
-      </div>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- 解决方案（按角色） -->
-    <section id="solutions" class="card">
-      <div class="section-title">为每一个内容生态角色量身打造</div>
-      <div class="tabs" style="margin-top:8px">
-        <div class="tab active" data-tab="creator">视频创作者</div>
-        <div class="tab" data-tab="mcn">MCN 机构</div>
-        <div class="tab" data-tab="brand">品牌 / 广告主</div>
-      </div>
-      <div class="audience-card" id="audienceContent">
-        <div class="h2">“我需要知道下一个爆款做什么。”</div>
-        <p class="muted">监控竞品动态，分析热门内容标签，优化内容策略，提升粉丝粘性。</p>
-      </div>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- 分析表单（包含现有功能与交互） -->
-    <section id="analyze" class="card">
-      <div class="badge">开始你的分析</div>
+  <!-- 英雄区域 -->
+  <section class="hero-section">
+    <div class="container">
       <div class="row">
-        <div class="col">
-          <div class="label">平台</div>
-          <select id="platform">
-            <option value="bilibili">Bilibili</option>
-            <option value="xhs">小红书</option>
-            <option value="douyin">抖音</option>
-          </select>
-        </div>
-        <div class="col">
-          <div class="label">你的UID（可选）</div>
-          <input class="input" id="uid" placeholder="如：123456" value="520819684">
+        <div class="col-12">
+          <span class="badge bg-light text-dark mb-3 px-3 py-2">停止猜测。用数据超越竞品。</span>
+          <h1 class="hero-title">一站式视频创作者分析平台</h1>
+          <p class="hero-subtitle">
+            整合 YouTube、TikTok、B站、小红书 等多平台数据，提供深度竞品对比、爆款内容洞察与商业价值估算，
+            助力您的内容事业实现数据驱动式增长。
+          </p>
+          <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a href="#analyze" class="btn btn-primary btn-lg">
+              <i class="bi bi-play-circle"></i> 立即免费开始分析
+            </a>
+            <a href="#features" class="btn btn-light btn-lg">
+              <i class="bi bi-info-circle"></i> 了解功能
+            </a>
+          </div>
+          <div class="row mt-5">
+            <div class="col-md-4">
+              <div class="text-white-50">
+                <i class="bi bi-lightning-charge-fill text-warning"></i> 平均报告生成：<strong class="text-white">~30秒</strong>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="text-white-50">
+                <i class="bi bi-cpu-fill text-info"></i> 可用模型：<strong class="text-white">DeepSeek / OpenAI / Gemini</strong>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="text-white-50">
+                <i class="bi bi-people-fill text-success"></i> 累计分析项目：<strong class="text-white">12,438+</strong>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- 功能特性 -->
+  <section id="features" class="py-5">
+    <div class="container">
+      <h2 class="section-title">核心功能特性</h2>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon icon-primary">
+              <i class="bi bi-layers"></i>
+            </div>
+            <h4 class="fw-bold">跨平台数据整合</h4>
+            <p class="text-muted">在一个界面集中监控多平台的粉丝增长、视频表现与互动数据，支持趋势与分布对比。</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon icon-success">
+              <i class="bi bi-graph-up"></i>
+            </div>
+            <h4 class="fw-bold">深度竞品分析</h4>
+            <p class="text-muted">像素级拆解您的竞品，实时追踪对方的数据表现，通过多维雷达图和趋势对比，快速定位可超越的突破口。</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon icon-info">
+              <i class="bi bi-currency-dollar"></i>
+            </div>
+            <h4 class="fw-bold">商业价值估算</h4>
+            <p class="text-muted">基于粉丝质量、互动率和行业基准，用AI智能估算您的视频合作价值，提供可信的报价建议。</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon icon-warning">
+              <i class="bi bi-robot"></i>
+            </div>
+            <h4 class="fw-bold">AI 驱动洞察</h4>
+            <p class="text-muted">AI 引擎自动分析数据，生成包含可视化图表和"人类可读"的优化建议。支持导出 PDF/PPT。</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon icon-danger">
+              <i class="bi bi-shield-check"></i>
+            </div>
+            <h4 class="fw-bold">数据安全</h4>
+            <p class="text-muted">支持可选离线推理与脱敏上传，企业版可对接内网模型或数据代理层，确保数据安全。</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon icon-secondary">
+              <i class="bi bi-clock-history"></i>
+            </div>
+            <h4 class="fw-bold">自动化监控</h4>
+            <p class="text-muted">设定监控清单与频率，自动生成对比报告并归档；支持指标告警与版本对比。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 使用流程 -->
+  <section id="how-it-works" class="py-5">
+    <div class="container">
+      <h2 class="section-title">三步开启数据洞察之旅</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <h4 class="fw-bold mb-3">链接账号</h4>
+            <p>选择您要分析的平台（如 YouTube、B站），输入您的主账号和您想追踪的竞品账号或链接。</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <h4 class="fw-bold mb-3">AI 分析</h4>
+            <p>CreatorInsights 自动抓取、清洗并分析数据，调用大模型（DeepSeek/OpenAI/Gemini）生成深度洞察。</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <h4 class="fw-bold mb-3">获取报告</h4>
+            <p>立即在网页上查看分析结果，或一键导出完整的 PDF/PPT 报告，完美用于团队分享或品牌提案。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 分析表单 -->
+  <section id="analyze" class="py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <div class="analysis-form">
+            <div class="text-center mb-4">
+              <h2 class="fw-bold mb-2">开始您的分析</h2>
+              <p class="text-muted">填写以下信息，立即生成专业的数据分析报告</p>
+            </div>
+
+            <form id="analysisForm">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label">
+                    <i class="bi bi-globe text-primary"></i> 选择平台
+                  </label>
+                  <select class="form-select" id="platform" required>
+                    <option value="bilibili">Bilibili</option>
+                    <option value="xhs">小红书</option>
+                    <option value="douyin">抖音</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">
+                    <i class="bi bi-person-badge text-success"></i> 你的UID（可选）
+                  </label>
+                  <input type="text" class="form-control" id="uid" placeholder="如：123456" value="520819684">
+                </div>
+              </div>
+
+              <div class="row g-3 mt-2">
+                <div class="col-md-6">
+                  <label class="form-label">
+                    <i class="bi bi-people text-info"></i> 竞品UID（1-3个）
+                  </label>
+                  <div id="c_uids_list"></div>
+                  <div class="mt-2">
+                    <button type="button" class="btn btn-sm btn-success btn-add-remove" id="addUidBtn">
+                      <i class="bi bi-plus-circle"></i> 添加
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-danger btn-add-remove" id="removeUidBtn">
+                      <i class="bi bi-dash-circle"></i> 删除
+                    </button>
+                  </div>
+                  <input type="hidden" id="c_uids" value="13611123">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">
+                    <i class="bi bi-link-45deg text-warning"></i> 竞品链接（1-3个）
+                  </label>
+                  <div id="c_links_list"></div>
+                  <div class="mt-2">
+                    <button type="button" class="btn btn-sm btn-success btn-add-remove" id="addLinkBtn">
+                      <i class="bi bi-plus-circle"></i> 添加
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-danger btn-add-remove" id="removeLinkBtn">
+                      <i class="bi bi-dash-circle"></i> 删除
+                    </button>
+                  </div>
+                  <input type="hidden" id="c_links" value="https://b23.tv/v3re5LD">
+                </div>
+              </div>
+
+              <div class="row g-3 mt-2">
+                <div class="col-md-6">
+                  <label class="form-label">
+                    <i class="bi bi-cpu text-danger"></i> 选择大模型
+                  </label>
+                  <select class="form-select" id="llm">
+                    <option value="deepseek">DeepSeek</option>
+                    <option value="openai">OpenAI</option>
+                    <option value="gemini">Gemini</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">
+                    <i class="bi bi-server text-secondary"></i> 服务地址（手机可访问）
+                  </label>
+                  <input type="text" class="form-control" id="baseUrl" placeholder="http://192.168.x.x:8000">
+                </div>
+              </div>
+
+              <div class="row g-3 mt-2">
+                <div class="col-12">
+                  <label class="form-label">
+                    <i class="bi bi-chat-left-text text-primary"></i> 报告指令（可选）
+                  </label>
+                  <input type="text" class="form-control" id="prompt" placeholder="请从增长、留存、变现三方面给出优先级建议">
+                </div>
+              </div>
+
+              <div class="d-flex gap-3 mt-4 flex-wrap">
+                <button type="submit" class="btn btn-primary btn-lg" id="runBtn">
+                  <i class="bi bi-play-fill"></i> 立即分析
+                </button>
+                <a href="./reports.html" class="btn btn-outline-primary btn-lg">
+                  <i class="bi bi-file-earmark-text"></i> 查看报告
+                </a>
+              </div>
+              <p class="text-muted small mt-3 mb-0">
+                <i class="bi bi-info-circle"></i> 提示：若后端未实现 llm/prompt 字段将被忽略，不影响任务创建。
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 定价 -->
+  <section id="pricing" class="py-5">
+    <div class="container">
+      <h2 class="section-title">选择适合您的计划</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="pricing-card">
+            <span class="badge bg-light text-dark mb-3">免费版</span>
+            <div class="price text-primary">¥0</div>
+            <p class="text-muted">永久免费</p>
+            <ul class="list-unstyled text-start my-4">
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success"></i> 数据摘要、基础图表</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success"></i> 有限的竞品追踪</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success"></i> 前2页报告免费查看</li>
+            </ul>
+            <button class="btn btn-outline-primary w-100">免费注册</button>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="pricing-card featured">
+            <span class="badge bg-warning mb-3">最受欢迎</span>
+            <div class="price">¥19.9</div>
+            <p class="text-muted">/ 月</p>
+            <ul class="list-unstyled text-start my-4">
+              <li class="mb-2"><i class="bi bi-check-circle-fill"></i> 深度报告与AI文字分析</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill"></i> 无限竞品对比</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill"></i> PDF/PPT 报告导出</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill"></i> 优先支持</li>
+            </ul>
+            <button class="btn btn-light w-100">立即升级</button>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="pricing-card">
+            <span class="badge bg-info mb-3">团队版</span>
+            <div class="price text-info">定制</div>
+            <p class="text-muted">联系销售</p>
+            <ul class="list-unstyled text-start my-4">
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success"></i> 专业版所有功能</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success"></i> 多账号管理、团队协作</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success"></i> API 接入</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill text-success"></i> 专属技术支持</li>
+            </ul>
+            <button class="btn btn-outline-primary w-100">联系我们</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="footer">
+    <div class="container">
       <div class="row">
-        <div class="col">
-          <div class="label">竞品UID（1-3个）</div>
-          <div id="c_uids_list"></div>
-          <div style="margin-top:8px">
-            <button type="button" class="btn" id="addUidBtn">+</button>
-            <button type="button" class="btn secondary" id="removeUidBtn" style="margin-left:8px">-</button>
+        <div class="col-md-6">
+          <h5 class="fw-bold mb-3">CreatorInsights</h5>
+          <p class="text-white-50">一站式视频创作者分析平台，用数据驱动内容增长。</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <h6 class="fw-bold mb-3">快速链接</h6>
+          <div class="d-flex flex-column flex-md-row gap-3 justify-content-md-end">
+            <a href="#features" class="text-white-50 text-decoration-none">功能特性</a>
+            <a href="#pricing" class="text-white-50 text-decoration-none">定价</a>
+            <a href="./reports.html" class="text-white-50 text-decoration-none">查看报告</a>
+            <a href="./pricing.html" class="text-white-50 text-decoration-none">价格详情</a>
           </div>
-          <input class="input" id="c_uids" placeholder="111,222,333" value="13611123" style="display:none">
         </div>
-        <div class="col">
-          <div class="label">竞品链接（1-3个）</div>
-          <div id="c_links_list"></div>
-          <div style="margin-top:8px">
-            <button type="button" class="btn" id="addLinkBtn">+</button>
-            <button type="button" class="btn secondary" id="removeLinkBtn" style="margin-left:8px">-</button>
+      </div>
+      <hr class="my-4 bg-white-50">
+      <div class="text-center text-white-50">
+        <p class="mb-0">© 2025 CreatorInsights. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 登录模态框 -->
+  <div class="modal fade" id="qrModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">微信扫码登录（占位）</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body text-center">
+          <p class="text-muted">请用微信扫码，或点击下方"我已扫码(占位)"模拟回调。</p>
+          <img id="qrImg" alt="qr" class="img-fluid rounded mb-3" style="max-width: 220px;">
+          <div id="qrStatus" class="text-info mb-3"></div>
+          <div class="d-flex gap-2 justify-content-center">
+            <button class="btn btn-primary" id="qrConfirmBtn">我已扫码(占位)</button>
+            <button class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
           </div>
-          <input class="input" id="c_links" placeholder="https://... , https://..." value="https://b23.tv/v3re5LD" style="display:none">
         </div>
       </div>
-      <div class="row" style="margin-top:8px">
-        <div class="col">
-          <div class="label">选择大模型</div>
-          <select id="llm">
-            <option value="deepseek">DeepSeek</option>
-            <option value="openai">OpenAI</option>
-            <option value="gemini">Gemini</option>
-          </select>
-        </div>
-        <div class="col">
-          <div class="label">服务地址（手机可访问）</div>
-          <input class="input" id="baseUrl" placeholder="http://192.168.x.x:8000">
-        </div>
-      </div>
-      <div class="row" style="margin-top:8px">
-        <div class="col">
-          <div class="label">报告指令（可选）</div>
-          <input class="input" id="prompt" placeholder="请从增长、留存、变现三方面给出优先级建议">
-        </div>
-      </div>
-      <div style="margin-top:12px">
-        <button class="btn" id="runBtn">立即分析</button>
-        <a class="btn secondary" href="./reports.html" style="margin-left:8px">查看报告</a>
-      </div>
-      <div class="small" style="margin-top:8px">提示：若后端未实现 llm/prompt 字段将被忽略，不影响任务创建。</div>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- 定价与CTA -->
-    <section id="pricing" class="pricing">
-      <div class="card price-card">
-        <div class="badge">免费版</div>
-        <div class="price-tag">$0</div>
-        <ul class="list">
-          <li>数据摘要、基础图表</li>
-          <li>有限的竞品追踪</li>
-        </ul>
-        <button class="btn">免费注册</button>
-      </div>
-      <div class="card price-card">
-        <div class="badge">专业版</div>
-        <div class="price-tag">按月 / 按次</div>
-        <ul class="list">
-          <li>深度报告与AI文字分析</li>
-          <li>无限竞品对比、PDF/PPT导出</li>
-        </ul>
-        <button class="btn">立即升级</button>
-      </div>
-      <div class="card price-card">
-        <div class="badge">团队 / MCN</div>
-        <div class="price-tag">联系销售</div>
-        <ul class="list">
-          <li>多账号管理、团队协作</li>
-          <li>API 接入、报表历史与权限</li>
-        </ul>
-        <button class="btn">联系我们</button>
-      </div>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- 最终行动号召 -->
-    <section id="final-cta" class="card">
-      <div class="section-title">准备好用数据驱动您的创作事业了吗？</div>
-      <div class="row" style="margin-top:8px">
-        <div class="col">
-          <input class="input" id="email" placeholder="输入您的邮箱地址">
-        </div>
-        <div class="col" style="flex:0 0 auto">
-          <button class="btn" id="freeStartBtn">免费开始</button>
-        </div>
-      </div>
-      <div class="small" style="margin-top:8px">提交邮箱即表示同意我们的服务条款与隐私政策。</div>
-    </section>
-
-    <!-- 页脚 -->
-    <div class="footer">
-      <div class="footer-links">
-        <a href="./pricing.html">定价</a>
-        <a href="./reports.html">我的报告</a>
-        <a href="#">帮助中心</a>
-      </div>
-      <div class="small" style="margin-top:6px">© 2025 CreatorInsights · 保留所有权利</div>
     </div>
   </div>
 
-  <!-- 微信扫码登录（占位，与现有一致风格） -->
-  <div class="modal" id="qrModal">
-    <div class="modal-card">
-      <div class="h2">微信扫码登录（占位）</div>
-      <p class="mono">请用微信扫码，或点击下方“我已扫码(占位)”模拟回调。</p>
-      <img id="qrImg" alt="qr"/>
-      <div style="margin-top:12px">
-        <button class="btn" id="qrConfirmBtn">我已扫码(占位)</button>
-        <button class="btn secondary" id="qrCloseBtn">关闭</button>
-      </div>
-      <div class="mono" id="qrStatus" style="margin-top:8px;color:#a9c6ff"></div>
-    </div>
-  </div>
+  <!-- Bootstrap 5 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
-    // 简单 Tab 切换（受众角色）
-    const tabEls = [];
-    document.addEventListener('DOMContentLoaded', ()=>{
-      const tabs = document.querySelectorAll('.tab');
-      const content = document.getElementById('audienceContent');
-      tabs.forEach(t=>{
-        tabEls.push(t);
-        t.addEventListener('click', ()=>{
-          tabEls.forEach(x=>x.classList.remove('active'));
-          t.classList.add('active');
-          const k = t.getAttribute('data-tab');
-          if(k==='creator'){
-            content.innerHTML = '<div class="h2">“我需要知道下一个爆款做什么。”</div><p class="muted">监控竞品动态，分析热门内容标签，优化内容策略，提升粉丝粘性。</p>';
-          }else if(k==='mcn'){
-            content.innerHTML = '<div class="h2">“我需要高效管理矩阵并对标竞品。”</div><p class="muted">批量监测旗下博主数据，对比竞品 MCN 的表现，挖掘高潜力博主，辅助商业决策。</p>';
-          }else{
-            content.innerHTML = '<div class="h2">“我需要找到最匹配的博主并评估 ROI。”</div><p class="muted">筛选目标博主，评估粉丝画像和商业价值，获取第三方数据报告支持投放决策。</p>';
-          }
-        });
-      });
-    });
-  </script>
-
-  <script>
-  // 与现有后端 API 兼容的工具方法
-  const BASE = localStorage.getItem('BACKEND_URL') || 'http://localhost:8000';
-  const api = (path, opt={}) => fetch(`${BASE}/api${path}`, {headers: {'Content-Type':'application/json'}, ...opt}).then(async r=>{
-    if(!r.ok){ const t = await r.text(); throw new Error(t||`HTTP ${r.status}`) }
-    return r.json();
-  });
-  (async ()=>{ try{ await fetch(`${BASE}/api/health`).then(r=>r.json()); }catch(e){ console.warn('后端未启动或地址错误：'+BASE) }})();
-
-  // 登录弹窗逻辑（占位，与现有风格一致）
-  let pollTimer = null; let currentScene = null;
-  const modal = document.getElementById('qrModal');
-  const qrImg = document.getElementById('qrImg');
-  const qrStatus = document.getElementById('qrStatus');
-  const qrCloseBtn = document.getElementById('qrCloseBtn');
-  function openModal(){ modal.classList.add('show') }
-  function closeModal(){ modal.classList.remove('show'); if(pollTimer){ clearInterval(pollTimer); pollTimer=null} currentScene=null }
-  qrCloseBtn.onclick = closeModal;
-
-  document.getElementById('wxLoginBtn').onclick = async () => {
-    try{
-      const {scene, qrcode} = await api('/auth/wechat/qrcode');
-      currentScene = scene; qrImg.src = qrcode; openModal(); qrStatus.textContent = '等待扫码...';
-      pollTimer = setInterval(async ()=>{
-        try{
-          const info = await fetch(`${BASE}/api/auth/wechat/poll?scene=${currentScene}`).then(r=>r.json());
-          if(info.status === 'confirmed'){
-            clearInterval(pollTimer); pollTimer=null;
-            localStorage.setItem('TOKEN', info.token);
-            qrStatus.textContent = '登录成功';
-            alert('登录成功: '+info.user_id);
-            closeModal();
-          }else if(info.status === 'expired'){
-            clearInterval(pollTimer); pollTimer=null;
-            qrStatus.textContent = '二维码已过期，请关闭重试';
-          }
-        }catch(e){}
-      }, 1200);
-    }catch(e){
-      alert('获取二维码失败：'+e.message);
-    }
-  };
-
-  document.getElementById('qrConfirmBtn').onclick = async () => {
-    if(!currentScene) return;
-    try{
-      await fetch(`${BASE}/api/auth/wechat/confirm?scene=${currentScene}`, {method:'POST'});
-    }catch(e){ alert('模拟确认失败：'+e.message) }
-  };
-  </script>
-
-  <script>
-  // 现有“分析”交互（动态添加/删除、Run 按钮与后端交互）
-  document.addEventListener('DOMContentLoaded', () => {
-    const uidHidden = document.getElementById('c_uids');
-    const linkHidden = document.getElementById('c_links');
-    const uidContainer = document.getElementById('c_uids_list');
-    const linkContainer = document.getElementById('c_links_list');
-    const addUidBtn = document.getElementById('addUidBtn');
-    const removeUidBtn = document.getElementById('removeUidBtn');
-    const addLinkBtn = document.getElementById('addLinkBtn');
-    const removeLinkBtn = document.getElementById('removeLinkBtn');
-    const runBtn = document.getElementById('runBtn');
-    const baseUrlInput = document.getElementById('baseUrl');
-
-    function parseCSV(str) { return (str || '').split(',').map(s => s.trim()).filter(Boolean); }
-    function addItem(container, placeholder) {
-      if (container.children.length >= 3) return;
-      const row = document.createElement('div');
-      row.className = 'row';
-      const input = document.createElement('input');
-      input.className = 'input';
-      input.placeholder = placeholder;
-      row.appendChild(input);
-      container.appendChild(row);
-    }
-    function removeItem(container) {
-      if (container.children.length > 1) {
-        container.removeChild(container.lastElementChild);
+    const BASE = localStorage.getItem('BACKEND_URL') || 'http://localhost:8000';
+    const api = (path, opt={}) => fetch(`${BASE}/api${path}`, {
+      headers: {'Content-Type':'application/json'}, 
+      ...opt
+    }).then(async r=>{
+      if(!r.ok){ 
+        const t = await r.text(); 
+        throw new Error(t||`HTTP ${r.status}`) 
       }
-    }
-    function renderList(container, values, placeholder) {
-      container.innerHTML = '';
-      (values.length ? values : ['']).forEach(val => {
-        const row = document.createElement('div');
-        row.className = 'row';
-        const input = document.createElement('input');
-        input.className = 'input';
-        input.placeholder = placeholder;
-        input.value = val || '';
-        row.appendChild(input);
-        container.appendChild(row);
-      });
-    }
-    function getValues(container) {
-      return Array.from(container.querySelectorAll('input')).map(i => i.value.trim()).filter(Boolean);
-    }
-    function getBaseUrl() {
-      const v = (baseUrlInput?.value || '').trim();
-      return v || window.location.origin;
-    }
+      return r.json();
+    });
 
-    renderList(uidContainer, parseCSV(uidHidden?.value || ''), '如：111111');
-    renderList(linkContainer, parseCSV(linkHidden?.value || ''), 'https://...');
+    // 健康检查
+    (async ()=>{ 
+      try{ 
+        await fetch(`${BASE}/api/health`).then(r=>r.json()); 
+      }catch(e){ 
+        console.warn('后端未启动或地址错误：'+BASE) 
+      }
+    })();
 
-    addUidBtn.addEventListener('click', () => addItem(uidContainer, '如：111111'));
-    removeUidBtn.addEventListener('click', () => removeItem(uidContainer));
-    addLinkBtn.addEventListener('click', () => addItem(linkContainer, 'https://...'));
-    removeLinkBtn.addEventListener('click', () => removeItem(linkContainer));
+    let pollTimer = null; 
+    let currentScene = null;
+    const modal = new bootstrap.Modal(document.getElementById('qrModal'));
+    const qrImg = document.getElementById('qrImg');
+    const qrStatus = document.getElementById('qrStatus');
 
-    runBtn.addEventListener('click', async () => {
-      const uids = getValues(uidContainer).slice(0, 3);
-      const links = getValues(linkContainer).slice(0, 3);
-      uidHidden.value = uids.join(',');
-      linkHidden.value = links.join(',');
+    // 微信登录
+    document.getElementById('wxLoginBtn').onclick = async () => {
       try{
-        const platform = document.getElementById('platform').value;
-        const uid = document.getElementById('uid').value.trim();
-        const c_uids = uidHidden.value.split(',').map(s=>s.trim()).filter(Boolean);
-        const c_links = linkHidden.value.split(',').map(s=>s.trim()).filter(Boolean);
-        const llm = document.getElementById('llm').value;
-        const prompt = document.getElementById('prompt').value.trim();
-        const body = {platform, user_uid: uid || null, competitor_uids: c_uids, competitor_links: c_links, llm, prompt: prompt || null};
-        const base = getBaseUrl();
-        const res = await fetch(`${base}/api/analysis/run`, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)}).then(r=>r.json());
-        alert('任务创建完成: '+(res.job_id || 'unknown')+'\n前两页可免费查看');
+        const {scene, qrcode} = await api('/auth/wechat/qrcode');
+        currentScene = scene; 
+        qrImg.src = qrcode; 
+        modal.show(); 
+        qrStatus.textContent = '等待扫码...';
+        
+        pollTimer = setInterval(async ()=>{
+          try{
+            const info = await fetch(`${BASE}/api/auth/wechat/poll?scene=${currentScene}`).then(r=>r.json());
+            if(info.status === 'confirmed'){
+              clearInterval(pollTimer); 
+              pollTimer=null;
+              localStorage.setItem('TOKEN', info.token);
+              qrStatus.textContent = '登录成功';
+              alert('登录成功: '+info.user_id);
+              modal.hide();
+            }else if(info.status === 'expired'){
+              clearInterval(pollTimer); 
+              pollTimer=null;
+              qrStatus.textContent = '二维码已过期，请关闭重试';
+            }
+          }catch(e){ /* 忽略暂时错误 */ }
+        }, 1200);
       }catch(e){
-        alert('创建任务失败：'+(e.message||e));
+        alert('获取二维码失败：'+e.message);
       }
+    }
+
+    document.getElementById('qrConfirmBtn').onclick = async () => {
+      if(!currentScene) return;
+      try{
+        await fetch(`${BASE}/api/auth/wechat/confirm?scene=${currentScene}`, {method:'POST'});
+      }catch(e){ 
+        alert('模拟确认失败：'+e.message) 
+      }
+    }
+
+    // 动态添加/删除输入框
+    document.addEventListener('DOMContentLoaded', () => {
+      const uidHidden = document.getElementById('c_uids');
+      const linkHidden = document.getElementById('c_links');
+      const uidContainer = document.getElementById('c_uids_list');
+      const linkContainer = document.getElementById('c_links_list');
+      const addUidBtn = document.getElementById('addUidBtn');
+      const removeUidBtn = document.getElementById('removeUidBtn');
+      const addLinkBtn = document.getElementById('addLinkBtn');
+      const removeLinkBtn = document.getElementById('removeLinkBtn');
+      const runBtn = document.getElementById('runBtn');
+
+      function parseCSV(str) {
+        return (str || '').split(',').map(s => s.trim()).filter(Boolean);
+      }
+
+      function addItem(container, placeholder) {
+        if (container.children.length >= 3) return;
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'form-control mt-2';
+        input.placeholder = placeholder;
+        container.appendChild(input);
+      }
+
+      function removeItem(container) {
+        if (container.children.length > 0) {
+          container.removeChild(container.lastElementChild);
+        }
+      }
+
+      function renderList(container, values, placeholder) {
+        container.innerHTML = '';
+        (values.length ? values : ['']).forEach(val => {
+          const input = document.createElement('input');
+          input.type = 'text';
+          input.className = 'form-control mt-2';
+          input.placeholder = placeholder;
+          input.value = val || '';
+          container.appendChild(input);
+        });
+      }
+
+      function getValues(container) {
+        return Array.from(container.querySelectorAll('input'))
+          .map(i => i.value.trim())
+          .filter(Boolean);
+      }
+
+      // 初始化
+      renderList(uidContainer, parseCSV(uidHidden?.value || ''), '如：111111');
+      renderList(linkContainer, parseCSV(linkHidden?.value || ''), 'https://...');
+
+      // 绑定按钮
+      addUidBtn.addEventListener('click', () => addItem(uidContainer, '如：111111'));
+      removeUidBtn.addEventListener('click', () => removeItem(uidContainer));
+      addLinkBtn.addEventListener('click', () => addItem(linkContainer, 'https://...'));
+      removeLinkBtn.addEventListener('click', () => removeItem(linkContainer));
+
+      // 表单提交
+      document.getElementById('analysisForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const uids = getValues(uidContainer).slice(0, 3);
+        const links = getValues(linkContainer).slice(0, 3);
+        uidHidden.value = uids.join(',');
+        linkHidden.value = links.join(',');
+
+        const baseUrl = document.getElementById('baseUrl').value.trim();
+        if (baseUrl) {
+          localStorage.setItem('BACKEND_URL', baseUrl);
+        }
+
+        try{
+          const platform = document.getElementById('platform').value;
+          const uid = document.getElementById('uid').value.trim();
+          const c_uids = uidHidden.value.split(',').map(s=>s.trim()).filter(Boolean);
+          const c_links = linkHidden.value.split(',').map(s=>s.trim()).filter(Boolean);
+          const llm = document.getElementById('llm').value;
+          const prompt = document.getElementById('prompt').value.trim();
+          
+          const body = {
+            platform, 
+            user_uid: uid || null, 
+            competitor_uids: c_uids, 
+            competitor_links: c_links,
+            llm: llm || undefined,
+            prompt: prompt || undefined
+          };
+          
+          const res = await api('/analysis/run', {
+            method:'POST', 
+            body: JSON.stringify(body)
+          });
+          
+          alert('任务创建完成: '+res.job_id+'\n前两页可免费查看');
+        }catch(e){
+          alert('创建任务失败：'+e.message);
+        }
+      });
     });
-  });
+
+    // 平滑滚动
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
   </script>
 </body>
 </html>
-
 

@@ -1,7 +1,10 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from typing import Literal
-
+# from typing import Literal
+try:
+    from typing import Literal
+except ImportError:
+    from typing_extensions import Literal  # 需要先安装 typing_extensions
 router = APIRouter()
 
 PricingType = Literal["single", "monthly", "quarterly", "yearly"]

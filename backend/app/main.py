@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from datetime import datetime, timedelta
+from pathlib import Path
 
 from .routers import auth, analysis, payments, reports
 
@@ -18,7 +19,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-FRONTEND_DIR = "/Users/danielcrystal/work/dididudu/frontend"
+# FRONTEND_DIR = "/Users/danielcrystal/work/dididudu/frontend"
+FRONTEND_DIR = Path(__file__).parent.parent.parent / "frontend"
 
 # 静态资源改挂载到 /static，避免覆盖 /api/*
 app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
